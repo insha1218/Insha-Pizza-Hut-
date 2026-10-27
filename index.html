@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پیزا شاپ - لکی ڈسکاؤنٹ ویل</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lateef:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Nastaliq Urdu', serif;
+            background: linear-gradient(135deg, #7f1d1d, #450a0a);
+            color: #fff;
+            min-height: 100vh;
+        }
+        .wheel-container {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            margin: 0 auto;
+        }
+        canvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            border: 6px solid #fbbf24;
+        }
+        .pointer {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 30px solid #ef4444;
+            z-index: 10;
+            filter: drop-shadow(0 3px 3px rgba(0,0,0,0.4));
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-between p-4 min-h-screen">
+
+    <!-- Header -->
+    <header class="w-full max-w-md flex justify-between items-center py-3 px-4 bg-red-950/80 rounded-2xl border border-amber-500/30 shadow-lg">
+        <h1 class="text-xl font-bold text-amber-400">🍕 لکی پیزا ڈسکاؤنٹ</h1>
+        <button onclick="openAdmin()" class="text-xs bg-amber-500 text-black font-bold px-3 py-1.5 rounded-lg hover:bg-amber-400 transition">ایڈمن لاگ ان</button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="w-full max-w-md flex flex-col items-center my-auto text-center py-4">
+        <div id="game-section" class="w-full">
+            <p class="text-amber-200 text-sm mb-4">ویل گھمائیں اور شاندار ڈسکاؤنٹ حاصل کریں!</p>
+            
+            <div class="wheel-container my-6">
+                <div class="pointer"></div>
+                <canvas id="wheel" width="500" height="500"></canvas>
+            </div>
+
+            <button id="spin-btn" onclick="spinWheel()" class="w-full bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-bold text-lg py-3.5 px-6 rounded-2xl shadow-lg hover:from-amber-400 hover:to-yellow-400 transition transform active:scale-95 border-2 border-amber-300">
+                ویل گھمائیں (Spin Now)
+            </button>
+        </div>
+
+        <!-- Result Box (Hidden by default) -->
+        <div id="result-section" class="hidden w-full bg-red-900/90 border-2 border-amber-400 p-6 rounded-3xl shadow-2xl animate-fade-in">
+            <h2 class="text-2xl font-bold text-amber-300 mb-2">مبارک ہو! 🎉</h2>
+            <p class="text-lg text-white mb-4">آپ کو ملا ہے: <span id="won-offer" class="text-3xl font-extrabold text-yellow-400 block my-1"></span></p>
+            
+            <div class="bg-black/40 p-4 rounded-xl border border-amber-500/30 my-4">
+                <p class="text-xs text-gray-300 mb-1">آپ کا خفیہ تصدیقی کوڈ (4 ہندسوں کا):</p>
+                <span id="won-code" class="text-3xl font-mono tracking-widest text-amber-400 font-bold"></span>
+            </div>
+            
+            <p class="text-xs text-red-200 mt-2">یہ کوڈ کاؤنٹر پر دکھا کر ڈسکاؤنٹ حاصل کریں۔ یہ کوڈ 24 گھنٹے کے لیے محفوظ ہے۔</p>
+        </div>
+
+        <!-- Timer / Already Played Box -->
+        <div id="cooldown-section" class="hidden w-full bg-red-950/90 border border-amber-500/40 p-6 rounded-3xl">
+            <h3 class="text-xl font-bold text-amber-400 mb-2">آپ پہلے ہی ویل گھما چکے ہیں!</h3>
+            <p class="text-sm text-gray-300 mb-4">آپ کو یہ آفر ملی تھی: <span id="prev-offer" class="text-amber-300 font-bold"></span></p>
+            <div class="bg-black/40 p-3 rounded-xl mb-3">
+                آپ کا کوڈ: <span id="prev-code" class="font-mono text-xl text-amber-400 font-bold"></span>
+            </div>
+            <p class="text-xs text-gray-400">اگلا موقع 24 گھنٹے بعد ملے گا۔</p>
+        </div>
+    </main>
+
+    <!-- Admin Modal -->
+    <div id="admin-modal" class="fixed inset-0 bg-black/80 hidden items-center justify-center p-4 z-50">
+        <div class="bg-red-950 border border-amber-500 w-full max-w-lg rounded-3xl p-6 max-h-[85vh] flex flex-col shadow-2xl">
+            <div class="flex justify-between items-center mb-4 border-b border-amber-500/30 pb-3">
+                <h3 class="text-lg font-bold text-amber-400">ایڈمن پینل (کوڈز لسٹ)</h3>
+                <button onclick="closeAdmin()" class="text-gray-400 hover:text-white text-lg font-bold px-2">✕</button>
+            </div>
+            
+            <div id="admin-login-box" class="py-6 text-center">
+                <input type="password" id="admin-pass" placeholder="پاس ورڈ درج کریں (admin123)" class="w-full bg-black/50 border border-amber-500/50 rounded-xl p-3 text-center text-white mb-4 outline-none focus:border-amber-400">
+                <button onclick="verifyAdmin()" class="w-full bg-amber-500 text-black font-bold py-3 rounded-xl hover:bg-amber-400 transition">لاگ ان کریں</button>
+            </div>
+
+            <div id="admin-data-box" class="hidden flex-col flex-grow overflow-hidden">
+                <div class="flex justify-between text-xs text-amber-300 mb-2 px-1">
+                    <span id="stats-summary">کل کوڈز: 100</span>
+                    <button onclick="resetData()" class="text-red-400 hover:underline">ڈیٹا ری سیٹ کریں</button>
+                </div>
+                <div class="overflow-y-auto flex-grow border border-amber-500/20 rounded-xl p-2 bg-black/30">
+                    <table class="w-full text-right text-xs">
+                        <thead>
+                            <tr class="border-b border-amber-500/30 text-amber-400">
+                                <th class="p-2">کوڈ</th>
+                                <th class="p-2">آفر</th>
+                                <th class="p-2">اسٹیٹس</th>
+                                <th class="p-2">ایکشن</th>
+                            </tr>
+                        </thead>
+                        <tbody id="codes-table-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full text-center text-xs text-gray-400 py-2">
+        &copy; 2026 پیزا شاپ - تمام حقوق محفوظ ہیں
+    </footer>
+
+    <script>
+        // Offers configuration & Quotas (Total 100)
+        const originalPool = [
+            ...Array(25).fill("3%"),
+            ...Array(20).fill("5%"),
+            ...Array(21).fill("8%"),
+            ...Array(15).fill("10%"),
+            ...Array(10).fill("13%"),
+            ...Array(5).fill("15%"),
+            ...Array(3).fill("18%"),
+            ...Array(1).fill("20%")
+        ];
+
+        const sectors = [
+            { label: "3%", color: "#dc2626" },
+            { label: "5%", color: "#ea580c" },
+            { label: "8%", color: "#d97706" },
+            { label: "10%", color: "#ca8a04" },
+            { label: "13%", color: "#16a34a" },
+            { label: "15%", color: "#0284c7" },
+            { label: "18%", color: "#7c3aed" },
+            { label: "20%", color: "#db2777" }
+        ];
+
+        let masterCodes = JSON.parse(localStorage.getItem('pizza_master_codes')) || generateMasterCodes();
+        
+        function generateMasterCodes() {
+            let codes = [];
+            let shuffledPool = [...originalPool].sort(() => Math.random() - 0.5);
+            
+            shuffledPool.forEach(offer => {
+                let code;
+                do {
+                    code = Math.floor(1000 + Math.random() * 9000).toString();
+                } while (codes.some(c => c.code === code));
+                
+                codes.push({
+                    code: code,
+                    offer: offer,
+                    claimed: false
+                });
+            });
+            localStorage.setItem('pizza_master_codes', JSON.stringify(codes));
+            return codes;
+        }
+
+        const canvas = document.getElementById('wheel');
+        const ctx = canvas.getContext('2d');
+        const numSectors = sectors.length;
+        const arc = Math.PI / (numSectors / 2);
+        let startAngle = 0;
+        let spinning = false;
+
+        function drawWheel() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const center = canvas.width / 2;
+            
+            sectors.forEach((sec, i) => {
+                const angle = startAngle + i * arc;
+                ctx.beginPath();
+                ctx.fillStyle = sec.color;
+                ctx.moveTo(center, center);
+                ctx.arc(center, center, center - 10, angle, angle + arc, false);
+                ctx.lineTo(center, center);
+                ctx.fill();
+                ctx.save();
+
+                // Text
+                ctx.translate(center, center);
+                ctx.rotate(angle + arc / 2);
+                ctx.textAlign = "right";
+                ctx.fillStyle = "#fff";
+                ctx.font = "bold 24px 'Noto Nastaliq Urdu', sans-serif";
+                ctx.fillText(sec.label, center - 35, 10);
+                ctx.restore();
+            });
+        }
+
+        // Check LocalStorage on load
+        window.onload = () => {
+            drawWheel();
+            checkUserStatus();
+        };
+
+        function checkUserStatus() {
+            const userData = JSON.parse(localStorage.getItem('pizza_user_spin'));
+            if (userData && (new Date().getTime() - userData.time < 24 * 60 * 60 * 1000)) {
+                document.getElementById('game-section').classList.add('hidden');
+                document.getElementById('cooldown-section').classList.remove('hidden');
+                document.getElementById('prev-offer').innerText = userData.offer;
+                document.getElementById('prev-code').innerText = userData.code;
+            }
+        }
+
+        function spinWheel() {
+            if (spinning) return;
+            spinning = true;
+
+            // Find an available reward from masterCodes
+            let availableCodes = masterCodes.filter(c => !c.claimed);
+            if (availableCodes.length === 0) {
+                alert("معذرت! تمام ڈسکاؤنٹ آفرز ختم ہو چکی ہیں۔");
+                spinning = false;
+                return;
+            }
+
+            // Pick a random available item
+            let winningItem = availableCodes[Math.floor(Math.random() * availableCodes.length)];
+            let targetIndex = sectors.findIndex(s => s.label === winningItem.offer);
+
+            // Spin math
+            const spins = 5;
+            const extraRotations = spins * 2 * Math.PI;
+            const arcSize = arc;
+            const targetAngle = extraRotations + (numSectors - targetIndex) * arcSize - (arcSize / 2);
+            
+            let currentAngle = 0;
+            let duration = 4000;
+            let startTime = null;
+
+            function animateSpin(currentTime) {
+                if (!startTime) startTime = currentTime;
+                let elapsed = currentTime - startTime;
+                let progress = Math.min(elapsed / duration, 1);
+                
+                // Ease out cubic
+                let easeProgress = 1 - Math.pow(1 - progress, 3);
+                startAngle = easeProgress * targetAngle;
+                
+                drawWheel();
+
+                if (progress < 1) {
+                    requestAnimationFrame(animateSpin);
+                } else {
+                    spinning = false;
+                    // Mark as claimed in master codes
+                    winningItem.claimed = true;
+                    localStorage.setItem('pizza_master_codes', JSON.stringify(masterCodes));
+                    
+                    // Save user record
+                    const userRecord = {
+                        offer: winningItem.offer,
+                        code: winningItem.code,
+                        time: new Date().getTime()
+                    };
+                    localStorage.setItem('pizza_user_spin', JSON.stringify(userRecord));
+
+                    // Confetti effect
+                    confetti({
+                        particleCount: 100,
+                        spread: 70,
+                        origin: { y: 0.6 }
+                    });
+
+                    // Show Result
+                    document.getElementById('game-section').classList.add('hidden');
+                    document.getElementById('result-section').classList.remove('hidden');
+                    document.getElementById('won-offer').innerText = winningItem.offer;
+                    document.getElementById('won-code').innerText = winningItem.code;
+                }
+            }
+
+            requestAnimationFrame(animateSpin);
+        }
+
+        // Admin Functions
+        function openAdmin() {
+            document.getElementById('admin-modal').classList.remove('hidden');
+            document.getElementById('admin-modal').classList.add('flex');
+        }
+
+        function closeAdmin() {
+            document.getElementById('admin-modal').classList.add('hidden');
+            document.getElementById('admin-modal').classList.remove('flex');
+        }
+
+        function verifyAdmin() {
+            const pass = document.getElementById('admin-pass').value;
+            if (pass === 'admin123') {
+                document.getElementById('admin-login-box').classList.add('hidden');
+                document.getElementById('admin-data-box').classList.remove('hidden');
+                loadAdminTable();
+            } else {
+                alert('गलत پاس ورڈ! درست پاس ورڈ درج کریں۔');
+            }
+        }
+
+        function loadAdminTable() {
+            const tbody = document.getElementById('codes-table-body');
+            tbody.innerHTML = '';
+            
+            let claimedCount = masterCodes.filter(c => c.claimed).length;
+            document.getElementById('stats-summary').innerText = `کل کوڈز: 100 | استعمال شدہ: ${claimedCount}`;
+
+            masterCodes.forEach((item, index) => {
+                let tr = document.createElement('tr');
+                tr.className = "border-b border-amber-500/10 hover:bg-white/5";
+                tr.innerHTML = `
+                    <td class="p-2 font-mono font-bold text-amber-300">${item.code}</td>
+                    <td class="p-2">${item.offer}</td>
+                    <td class="p-2"><span class="px-2 py-0.5 rounded text-[10px] ${item.claimed ? 'bg-green-900 text-green-200' : 'bg-gray-800 text-gray-300'}">${item.claimed ? 'استعمال شدہ' : 'دستیاب'}</span></td>
+                    <td class="p-2">
+                        <button onclick="toggleClaim(${index})" class="text-[10px] bg-amber-500/20 hover:bg-amber-500 text-amber-300 hover:text-black px-2 py-1 rounded transition">اسٹیٹس بدلیں</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function toggleClaim(index) {
+            masterCodes[index].claimed = !masterCodes[index].claimed;
+            localStorage.setItem('pizza_master_codes', JSON.stringify(masterCodes));
+            loadAdminTable();
+        }
+
+        function resetData() {
+            if (confirm("کیا آپ واقعی تمام کوڈز کا ڈیٹا ری سیٹ کرنا چاہتے ہیں؟")) {
+                localStorage.removeItem('pizza_master_codes');
+                localStorage.removeItem('pizza_user_spin');
+                masterCodes = generateMasterCodes();
+                loadAdminTable();
+                alert("ڈیٹا کامیابی سے ری سیٹ ہو گیا ہے!");
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
