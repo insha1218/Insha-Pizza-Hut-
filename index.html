@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Insha Pizza - Lucky Discount Wheel</title>
+    <title>Insha Pizza Hut - Lucky Discount Wheel</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #7f1d1d, #450a0a);
+            background: radial-gradient(circle at center, #991b1b, #450a0a, #1a0202);
             color: #fff;
             min-height: 100vh;
+        }
+        .food-bg-glow {
+            box-shadow: 0 0 50px rgba(239, 68, 68, 0.3);
         }
         .wheel-container {
             position: relative;
@@ -24,74 +27,80 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8), 0 0 20px rgba(251, 191, 36, 0.4);
             border: 6px solid #fbbf24;
         }
         .pointer {
             position: absolute;
-            top: -15px;
+            top: -18px;
             left: 50%;
             transform: translateX(-50%);
             width: 0;
             height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-top: 30px solid #ef4444;
+            border-left: 16px solid transparent;
+            border-right: 16px solid transparent;
+            border-top: 32px solid #fbbf24;
             z-index: 10;
-            filter: drop-shadow(0 3px 3px rgba(0,0,0,0.4));
+            filter: drop-shadow(0 4px 4px rgba(0,0,0,0.6));
         }
     </style>
 </head>
 <body class="flex flex-col items-center justify-between p-4 min-h-screen">
 
     <!-- Header -->
-    <header class="w-full max-w-md flex justify-between items-center py-3 px-4 bg-red-950/90 rounded-2xl border border-amber-500/30 shadow-lg">
-        <h1 class="text-lg font-extrabold text-amber-400">🍕 INSHA PIZZA HUT</h1>
-        <button onclick="openAdmin()" class="text-xs bg-amber-500 text-black font-bold px-3 py-1.5 rounded-lg hover:bg-amber-400 transition">Admin Login</button>
+    <header class="w-full max-w-md flex justify-between items-center py-3 px-5 bg-black/60 backdrop-blur-md rounded-2xl border border-amber-500/40 shadow-xl">
+        <h1 class="text-lg font-extrabold text-amber-400 tracking-wider">🍕 INSHA PIZZA HUT</h1>
+        <button onclick="openAdmin()" class="text-xs bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-extrabold px-3 py-1.5 rounded-xl hover:opacity-90 transition shadow">Admin Login</button>
     </header>
 
     <!-- Main Content -->
     <main class="w-full max-w-md flex flex-col items-center my-auto text-center py-4">
+        
+        <!-- Promotional Banner Box -->
+        <div class="w-full bg-gradient-to-r from-red-900/80 via-black/60 to-red-900/80 border border-amber-500/30 p-3 rounded-2xl mb-4 food-bg-glow">
+            <p class="text-amber-300 text-xs font-semibold uppercase tracking-widest">Special Family Offer</p>
+            <h2 class="text-2xl font-black text-white mt-1">SPIN & WIN DISCOUNT</h2>
+            <p class="text-gray-300 text-[11px] mt-0.5">Test your luck and get up to 20% OFF on your meal!</p>
+        </div>
+
         <div id="game-section" class="w-full">
-            <h2 class="text-2xl font-extrabold text-amber-300 mb-1">Spin & Win Discount!</h2>
-            <p class="text-gray-300 text-xs mb-4">Spin the wheel to get your exclusive discount offer.</p>
-            
-            <div class="wheel-container my-6">
+            <div class="wheel-container my-4">
                 <div class="pointer"></div>
                 <canvas id="wheel" width="500" height="500"></canvas>
             </div>
 
-            <button id="spin-btn" onclick="spinWheel()" class="w-full bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-extrabold text-lg py-3.5 px-6 rounded-2xl shadow-lg hover:from-amber-400 hover:to-yellow-400 transition transform active:scale-95 border-2 border-amber-300">
-                SPIN THE WHEEL
+            <button id="spin-btn" onclick="spinWheel()" class="w-full bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-500 text-black font-black text-lg py-4 px-6 rounded-2xl shadow-xl hover:brightness-110 transition transform active:scale-95 border-2 border-amber-200 tracking-wide">
+                SPIN THE WHEEL NOW 🎯
             </button>
         </div>
 
         <!-- Result Box (Hidden by default) -->
-        <div id="result-section" class="hidden w-full bg-red-900/95 border-2 border-amber-400 p-6 rounded-3xl shadow-2xl">
-            <h2 class="text-3xl font-extrabold text-amber-300 mb-2">Congratulations! 🎉</h2>
-            <p class="text-base text-white mb-3">You won: <span id="won-offer" class="text-4xl font-black text-yellow-400 block my-2"></span></p>
+        <div id="result-section" class="hidden w-full bg-gradient-to-b from-red-950 to-black border-2 border-amber-400 p-6 rounded-3xl shadow-2xl">
+            <h2 class="text-3xl font-black text-amber-300 mb-1">CONGRATULATIONS! 🎉</h2>
+            <p class="text-sm text-gray-200">You have successfully won:</p>
+            <span id="won-offer" class="text-5xl font-black text-yellow-400 block my-3 tracking-wide"></span>
             
-            <div class="bg-black/40 p-4 rounded-xl border border-amber-500/30 my-4">
-                <p class="text-xs text-gray-300 mb-1">Your 4-Digit Secret Verification Code:</p>
-                <span id="won-code" class="text-3xl font-mono tracking-widest text-amber-400 font-bold"></span>
+            <div class="bg-black/60 p-4 rounded-2xl border border-amber-500/40 my-4">
+                <p class="text-xs text-gray-400 mb-1 uppercase tracking-wider">Your Secret Verification Code:</p>
+                <span id="won-code" class="text-4xl font-mono tracking-widest text-amber-300 font-bold"></span>
             </div>
             
-            <p class="text-xs text-red-200 mt-2">Show this code at the counter to claim your discount. Valid for 24 hours.</p>
+            <p class="text-xs text-red-300">Show this code at the counter to claim your discount. Valid for 24 hours only.</p>
         </div>
 
         <!-- Cooldown Box -->
-        <div id="cooldown-section" class="hidden w-full bg-red-950/90 border border-amber-500/40 p-6 rounded-3xl">
-            <h3 class="text-xl font-bold text-amber-400 mb-2">Already Played!</h3>
-            <p class="text-sm text-gray-300 mb-3">You previously won: <span id="prev-offer" class="text-amber-300 font-bold"></span></p>
-            <div class="bg-black/40 p-3 rounded-xl mb-3">
-                Your Code: <span id="prev-code" class="font-mono text-xl text-amber-400 font-bold"></span>
+        <div id="cooldown-section" class="hidden w-full bg-black/80 border border-amber-500/40 p-6 rounded-3xl backdrop-blur-md">
+            <h3 class="text-xl font-bold text-amber-400 mb-2">Already Played Today!</h3>
+            <p class="text-sm text-gray-300 mb-2">Your previous won offer: <span id="prev-offer" class="text-amber-300 font-bold text-lg"></span></p>
+            <div class="bg-red-950/50 p-3 rounded-xl mb-3 border border-red-500/30">
+                Your Code: <span id="prev-code" class="font-mono text-2xl text-amber-400 font-bold tracking-wider"></span>
             </div>
             <p class="text-xs text-gray-400">You can spin again after 24 hours.</p>
         </div>
     </main>
 
     <!-- Admin Modal -->
-    <div id="admin-modal" class="fixed inset-0 bg-black/80 hidden items-center justify-center p-4 z-50">
+    <div id="admin-modal" class="fixed inset-0 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
         <div class="bg-red-950 border border-amber-500 w-full max-w-lg rounded-3xl p-6 max-h-[85vh] flex flex-col shadow-2xl">
             <div class="flex justify-between items-center mb-4 border-b border-amber-500/30 pb-3">
                 <h3 class="text-base font-bold text-amber-400">Admin Panel (Code List)</h3>
@@ -99,16 +108,16 @@
             </div>
             
             <div id="admin-login-box" class="py-6 text-center">
-                <input type="password" id="admin-pass" placeholder="Enter Password (admin123)" class="w-full bg-black/50 border border-amber-500/50 rounded-xl p-3 text-center text-white mb-4 outline-none focus:border-amber-400 text-sm">
+                <input type="password" id="admin-pass" placeholder="Enter Password (admin123)" class="w-full bg-black/60 border border-amber-500/50 rounded-xl p-3 text-center text-white mb-4 outline-none focus:border-amber-400 text-sm">
                 <button onclick="verifyAdmin()" class="w-full bg-amber-500 text-black font-bold py-3 rounded-xl hover:bg-amber-400 transition text-sm">Login</button>
             </div>
 
             <div id="admin-data-box" class="hidden flex-col flex-grow overflow-hidden">
                 <div class="flex justify-between text-xs text-amber-300 mb-2 px-1">
-                    <span id="stats-summary">Total Codes: 100</span>
+                    <span id="stats-summary">Total: 100 | Claimed: 0</span>
                     <button onclick="resetData()" class="text-red-400 hover:underline">Reset Data</button>
                 </div>
-                <div class="overflow-y-auto flex-grow border border-amber-500/20 rounded-xl p-2 bg-black/30">
+                <div class="overflow-y-auto flex-grow border border-amber-500/20 rounded-xl p-2 bg-black/40">
                     <table class="w-full text-left text-xs">
                         <thead>
                             <tr class="border-b border-amber-500/30 text-amber-400">
@@ -132,7 +141,6 @@
     </footer>
 
     <script>
-        // Quotas & Offers (Total 100)
         const originalPool = [
             ...Array(25).fill("3%"),
             ...Array(20).fill("5%"),
@@ -144,19 +152,18 @@
             ...Array(1).fill("20%")
         ];
 
-        // Sectors with food-themed vibrant colors
         const sectors = [
-            { label: "3%", color: "#dc2626", text: "3% OFF" },
-            { label: "5%", color: "#ea580c", text: "5% OFF" },
-            { label: "8%", color: "#d97706", text: "8% OFF" },
-            { label: "10%", color: "#ca8a04", text: "10% OFF" },
-            { label: "13%", color: "#16a34a", text: "13% OFF" },
-            { label: "15%", color: "#0284c7", text: "15% OFF" },
-            { label: "18%", color: "#7c3aed", text: "18% OFF" },
-            { label: "20%", color: "#db2777", text: "20% OFF" }
+            { label: "3%", color: "#b91c1c", text: "3% OFF" },
+            { label: "5%", color: "#c2410c", text: "5% OFF" },
+            { label: "8%", color: "#b45309", text: "8% OFF" },
+            { label: "10%", color: "#a16207", text: "10% OFF" },
+            { label: "13%", color: "#15803d", text: "13% OFF" },
+            { label: "15%", color: "#0369a1", text: "15% OFF" },
+            { label: "18%", color: "#6d28d9", text: "18% OFF" },
+            { label: "20%", color: "#be185d", text: "20% OFF" }
         ];
 
-        let masterCodes = JSON.parse(localStorage.getItem('insha_pizza_codes')) || generateMasterCodes();
+        let masterCodes = JSON.parse(localStorage.getItem('insha_pizza_codes_v2')) || generateMasterCodes();
         
         function generateMasterCodes() {
             let codes = [];
@@ -174,7 +181,7 @@
                     claimed: false
                 });
             });
-            localStorage.setItem('insha_pizza_codes', JSON.stringify(codes));
+            localStorage.setItem('insha_pizza_codes_v2', JSON.stringify(codes));
             return codes;
         }
 
@@ -199,12 +206,14 @@
                 ctx.fill();
                 ctx.save();
 
-                // Draw Text / Labels inside wheel
+                // Draw Text inside wheel
                 ctx.translate(center, center);
                 ctx.rotate(angle + arc / 2);
                 ctx.textAlign = "right";
-                ctx.fillStyle = "#fff";
-                ctx.font = "bold 22px 'Poppins', sans-serif";
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "bold 24px 'Poppins', sans-serif";
+                ctx.shadowColor = "rgba(0, 0, 0, 0.8)";
+                ctx.shadowBlur = 4;
                 ctx.fillText(sec.text, center - 35, 8);
                 ctx.restore();
             });
@@ -216,11 +225,11 @@
         };
 
         function checkUserStatus() {
-            const userData = JSON.parse(localStorage.getItem('insha_user_spin'));
+            const userData = JSON.parse(localStorage.getItem('insha_user_spin_v2'));
             if (userData && (new Date().getTime() - userData.time < 24 * 60 * 60 * 1000)) {
                 document.getElementById('game-section').classList.add('hidden');
                 document.getElementById('cooldown-section').classList.remove('hidden');
-                document.getElementById('prev-offer').innerText = userData.offer;
+                document.getElementById('prev-offer').innerText = userData.offer + " OFF";
                 document.getElementById('prev-code').innerText = userData.code;
             }
         }
@@ -239,12 +248,12 @@
             let winningItem = availableCodes[Math.floor(Math.random() * availableCodes.length)];
             let targetIndex = sectors.findIndex(s => s.label === winningItem.offer);
 
-            const spins = 5;
+            const spins = 6;
             const extraRotations = spins * 2 * Math.PI;
             const arcSize = arc;
             const targetAngle = extraRotations + (numSectors - targetIndex) * arcSize - (arcSize / 2);
             
-            let duration = 4000;
+            let duration = 4500;
             let startTime = null;
 
             function animateSpin(currentTime) {
@@ -262,18 +271,18 @@
                 } else {
                     spinning = false;
                     winningItem.claimed = true;
-                    localStorage.setItem('insha_pizza_codes', JSON.stringify(masterCodes));
+                    localStorage.setItem('insha_pizza_codes_v2', JSON.stringify(masterCodes));
                     
                     const userRecord = {
                         offer: winningItem.offer,
                         code: winningItem.code,
                         time: new Date().getTime()
                     };
-                    localStorage.setItem('insha_user_spin', JSON.stringify(userRecord));
+                    localStorage.setItem('insha_user_spin_v2', JSON.stringify(userRecord));
 
                     confetti({
-                        particleCount: 120,
-                        spread: 80,
+                        particleCount: 150,
+                        spread: 90,
                         origin: { y: 0.6 }
                     });
 
@@ -332,16 +341,16 @@
 
         function toggleClaim(index) {
             masterCodes[index].claimed = !masterCodes[index].claimed;
-            localStorage.setItem('insha_pizza_codes', JSON.stringify(masterCodes));
+            localStorage.setItem('insha_pizza_codes_v2', JSON.stringify(masterCodes));
             loadAdminTable();
         }
 
         function resetData() {
             if (confirm("Are you sure you want to reset all data?")) {
-                localStorage.removeItem('insha_pizza_codes');
-                localStorage.removeItem('insha_user_spin');
+                localStorage.removeItem('insha_pizza_codes_v2');
+                localStorage.removeItem('insha_user_spin_v2');
                 masterCodes = generateMasterCodes();
-                loadAdminTable();
+                loadAdminText();
                 alert("Data reset successfully!");
                 location.reload();
             }
