@@ -14,10 +14,10 @@ body{background:#000;color:#fff;text-align:center;font-family:Arial,sans-serif;m
 #wheel{width:100%;border-radius:50%;display:block;transition:5.2s cubic-bezier(0.15,0.85,0.15,1)}
 #arrow{position:absolute;top:-8px;left:50%;transform:translateX(-50%);z-index:10;width:0;height:0;border-left:22px solid transparent;border-right:22px solid transparent;border-top:44px solid #fff;filter:drop-shadow(0 3px 6px #000)}
 .btn{padding:17px;background:linear-gradient(90deg,#891C1C,#FF0700);color:#FFD700;border:2.5px solid #D4AF37;border-radius:30px;width:86%;max-width:320px;font-size:19px;font-weight:bold;margin:16px auto;display:block;cursor:pointer}
-.btn:disabled{background:#333;color:#888;border-color:#555}
-.timer{margin:12px auto;background:linear-gradient(180deg,#1a1a1a,#000);border:1.8px solid #D4AF37;border-radius:12px;padding:12px;width:92%;max-width:420px;display:none;color:#FFD700;font-weight:bold;font-size:16px}
+.btn:disabled{background:#333;color:#888;border-color:#555;cursor:not-allowed}
+.timer{margin:12px auto;background:linear-gradient(180deg,#1a1a1a,#000);border:1.8px solid #D4AF37;border-radius:12px;padding:12px;width:92%;max-width:420px;display:none;color:#FFD700;font-weight:bold;font-size:16px;line-height:1.4}
 .result{margin:14px auto;background:linear-gradient(180deg,#1f1f1f,#000);border:2.5px solid #D4AF37;border-radius:14px;padding:16px;width:92%;max-width:420px;display:none}
-.code{font-size:38px;font-weight:900;background:linear-gradient(180deg,#FFFBDC,#D4AF37);color:#000;padding:12px 28px;border-radius:18px;display:inline-block;margin:10px auto}
+.code{font-size:38px;font-weight:900;background:linear-gradient(180deg,#FFFBDC,#D4AF37);color:#000;padding:12px 28px;border-radius:18px;display:inline-block;margin:10px auto;letter-spacing:2px}
 .footer{background:#0f0f0f;border-top:2px solid #D4AF37;padding:16px;margin-top:20px}
 .phone{display:inline-block;padding:9px 18px;background:#891C1C;border:1.5px solid #D4AF37;border-radius:22px;margin:5px;color:#fff;text-decoration:none;font-weight:bold}
 #adminPanel{display:none;margin-top:14px;background:#1a1a1a;border:1.5px dashed #D4AF37;border-radius:10px;padding:12px}
@@ -26,24 +26,26 @@ body{background:#000;color:#fff;text-align:center;font-family:Arial,sans-serif;m
 </head>
 <body>
 <div class="header"><h1>INSHA PIZZA HUT</h1><div class="sub">SPIN & WIN UPTO 20% OFF</div></div>
-<div class="wrap"><div id="arrow"></div><img id="wheel" src="wheel.jpg"></div>
-<button class="btn" id="spinBtn" onclick="doSpin()">SPIN NOW - سپن کریں</button>
+<div class="wrap"><div id="arrow"></div><img id="wheel" src="wheel.jpg" alt="wheel"></div>
+<button class="btn" id="spinBtn" onclick="doSpin()">SPIN NOW</button>
 <div class="timer" id="timerBox"></div>
 <div class="result" id="resultBox">
-<h2 style="color:#FFD700">🎉 CONGRATULATIONS!</h2>
+<h2 style="color:#FFD700">CONGRATULATIONS!</h2>
 <p id="resultText" style="font-size:18px;margin:8px 0"></p>
 <div class="code" id="codeBox"></div>
-<p style="color:#D4AF37;font-size:12px">Show this code at counter</p>
+<p style="color:#D4AF37;font-size:12px;margin-top:6px">Show this code at counter</p>
+<p style="color:#aaa;font-size:11px;margin-top:4px">Valid for 24 hours</p>
 </div>
 <div class="footer">
 <p style="color:#FFD700;font-weight:bold">📍 INSHA PIZZA HUT - Free Home Delivery</p>
 <a href="tel:03427529146" class="phone">📞 0342-7529146</a>
 <a href="tel:03354277240" class="phone">📞 0335-4277240</a>
+<p style="color:#aaa;font-size:11px;margin-top:8px">Tap to call • Min Order Rs. 500</p>
 <div id="adminPanel">
-<p style="color:#FFD700;font-weight:bold">🔐 ADMIN - Only You</p>
-<a href="https://docs.google.com/spreadsheets/d/1IAVg7ifsZgXq0HI8eiI_lwqy9WpqWJFqSCdu9GIEBoM/edit" target="_blank">📊 Google Sheet</a>
-<a href="https://script.google.com/macros/s/AKfycbwjeTWSx_fwXUQywC37VNkKjGf6YLo7S9tn4V6S1mGAdVNyTz5sMSjQ0-V527iHA7PY9g/exec?action=list" target="_blank">📋 JSON List</a>
-<button onclick="localStorage.clear(); alert('Cleared!'); location.reload();" style="margin-top:10px;padding:8px 14px;background:#891C1C;color:#fff;border:1px solid #D4AF37;border-radius:8px">🔓 Reset Cooldown</button>
+<p style="color:#FFD700;font-weight:bold">🔐 ADMIN PANEL</p>
+<a href="https://docs.google.com/spreadsheets/d/1IAVg7ifsZgXq0HI8eiI_lwqy9WpqWJFqSCdu9GIEBoM/edit" target="_blank">📊 Open Google Sheet</a>
+<a href="https://script.google.com/macros/s/AKfycbwjeTWSx_fwXUQywC37VNkKjGf6YLo7S9tn4V6S1mGAdVNyTz5sMSjQ0-V527iHA7PY9g/exec?action=list" target="_blank">📋 View JSON List</a>
+<button onclick="localStorage.clear(); alert('Cooldown cleared!'); location.reload();" style="margin-top:10px;padding:8px 14px;background:#891C1C;color:#fff;border:1px solid #D4AF37;border-radius:8px">🔓 Reset Cooldown (Testing)</button>
 </div>
 </div>
 <script>
@@ -64,9 +66,73 @@ let taps=0; document.querySelector('.header h1').addEventListener('click',()=>{ 
 function getWeighted(){ const total = weightedOffers.reduce((s,o)=>s+o.weight,0); let r = Math.random()*total; for(let o of weightedOffers){ if(r < o.weight) return o.label; r-=o.weight; } return "3%"; }
 function checkCooldown(){ const last = localStorage.getItem('insha_last_spin'); if(!last) return false; const diff = Date.now() - parseInt(last); return diff < COOLDOWN_MS ? COOLDOWN_MS - diff : false; }
 let timerInterval=null;
-function startTimer(remaining){ isSpinning=true; btn.disabled=true; btn; timerBox.style.display='block'; if(timerInterval) clearInterval(timerInterval); timerInterval = setInterval(()=>{ remaining -= 1000; if(remaining <= 0){ clearInterval(timerInterval); timerBox.style.display='none'; btn.disabled=false; btn.innerText="SPIN NOW - سپن کریں"; isSpinning=false; localStorage.removeItem('insha_last_spin'); return; } const h = Math.floor(remaining/3600000); const m = Math.floor((remaining%3600000)/60000); const s = Math.floor((remaining%60000)/1000); timerBox.innerHTML = `⏳ دوبارہ سپن: ${h} گھنٹے ${m} منٹ ${s} سیکنڈ بعد<br><span style="font-size:11px;color:#aaa">One spin per 24 hours per phone</span>`; },1000); }
-(function init(){ const rem = checkCooldown(); if(rem){ startTimer(rem); const lo = localStorage.getItem('insha_last_offer'); const lc = localStorage.getItem('insha_last_code'); if(lo && lc){ document.getElementById('resultText').innerText = `You Won ${lo} OFF`; document.getElementById('codeBox').innerText = lc; resultBox.style.display='block'; } }})();
-function doSpin(){ if(isSpinning) return; const rem = checkCooldown(); if(rem){ startTimer(rem); return; } isSpinning=true; btn.disabled=true; btn.innerText="Spinning..."; resultBox.style.display='none'; const winOffer = getWeighted(); const winIndex = offersClockwise.indexOf(winOffer); const angleOfWinner = winIndex * 45; const targetDeg = (360 - angleOfWinner) % 360; const currentDeg = totalDeg % 360; let needed = (targetDeg - currentDeg + 360) % 360; const jitter = (Math.random()*14 -7); totalDeg += 360*8 + needed + jitter; wheel.style.transform = `rotate(${totalDeg}deg)`; setTimeout(()=>{ const code = Math.floor(1000 + Math.random()*9000); document.getElementById('resultText').innerText = `You Won ${winOffer} OFF`; document.getElementById('codeBox').innerText = code; resultBox.style.display='block'; btn.innerText = `YOU WON ${winOffer}!`; resultBox.scrollIntoView({behavior:'smooth'}); localStorage.setItem('insha_last_spin', Date.now().toString()); localStorage.setItem('insha_last_offer', winOffer); localStorage.setItem('insha_last_code', code.toString()); startTimer(COOLDOWN_MS); try{ fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({offer:winOffer,code:code})}); }catch(e){} },5300); }
+function startTimer(remaining){
+  isSpinning=true;
+  btn.disabled=true;
+  btn.innerText="YOU HAVE ALREADY SPUN!";
+  timerBox.style.display='block';
+  if(timerInterval) clearInterval(timerInterval);
+  timerInterval = setInterval(()=>{
+    remaining -= 1000;
+    if(remaining <= 0){
+      clearInterval(timerInterval);
+      timerBox.style.display='none';
+      btn.disabled=false;
+      btn.innerText="SPIN NOW";
+      isSpinning=false;
+      localStorage.removeItem('insha_last_spin');
+      return;
+    }
+    const h = Math.floor(remaining/3600000);
+    const m = Math.floor((remaining%3600000)/60000);
+    const s = Math.floor((remaining%60000)/1000);
+    timerBox.innerHTML = `Next spin in: ${h}h ${m}m ${s}s<br><span style="font-size:11px;color:#aaa">One spin per 24 hours per phone</span>`;
+  },1000);
+}
+(function init(){
+  const rem = checkCooldown();
+  if(rem){
+    startTimer(rem);
+    const lo = localStorage.getItem('insha_last_offer');
+    const lc = localStorage.getItem('insha_last_code');
+    if(lo && lc){
+      document.getElementById('resultText').innerText = `You Won ${lo} OFF`;
+      document.getElementById('codeBox').innerText = lc;
+      resultBox.style.display='block';
+    }
+  }
+})();
+function doSpin(){
+  if(isSpinning) return;
+  const rem = checkCooldown();
+  if(rem){ startTimer(rem); return; }
+  isSpinning=true;
+  btn.disabled=true;
+  btn.innerText="Spinning...";
+  resultBox.style.display='none';
+  const winOffer = getWeighted();
+  const winIndex = offersClockwise.indexOf(winOffer);
+  const angleOfWinner = winIndex * 45;
+  const targetDeg = (360 - angleOfWinner) % 360;
+  const currentDeg = totalDeg % 360;
+  let needed = (targetDeg - currentDeg + 360) % 360;
+  const jitter = (Math.random()*14 -7);
+  totalDeg += 360*8 + needed + jitter;
+  wheel.style.transform = `rotate(${totalDeg}deg)`;
+  setTimeout(()=>{
+    const code = Math.floor(1000 + Math.random()*9000);
+    document.getElementById('resultText').innerText = `You Won ${winOffer} OFF`;
+    document.getElementById('codeBox').innerText = code;
+    resultBox.style.display='block';
+    btn.innerText = `YOU WON ${winOffer}!`;
+    resultBox.scrollIntoView({behavior:'smooth'});
+    localStorage.setItem('insha_last_spin', Date.now().toString());
+    localStorage.setItem('insha_last_offer', winOffer);
+    localStorage.setItem('insha_last_code', code.toString());
+    startTimer(COOLDOWN_MS);
+    try{ fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({offer:winOffer,code:code})}); }catch(e){}
+  },5300);
+}
 </script>
 </body>
 </html>
