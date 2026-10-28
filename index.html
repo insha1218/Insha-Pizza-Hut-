@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>INSHA PIZZA HUT</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;color:#fff;text-align:center;font-family:Arial}
+.header{background:linear-gradient(90deg,#B91C1C,#FFD700,#B91C1C);padding:15px}
+.header h1{font-size:28px;text-shadow:2px 2px 4px #000}
+.header .sub{color:#000;font-weight:bold;font-size:15px}
+.wrap{position:relative;width:90vw;max-width:460px;margin:18px auto;border-radius:50%;box-shadow:0 0 0 5px #FFD700,0 0 0 9px #000,0 0 0 12px #FFD700}
+#wheel{width:100%;border-radius:50%;display:block;transition:transform 5s cubic-bezier(0.1,0,0.1,1)}
+/* GOLDEN ARROW */
+#arrow{position:absolute;top:-22px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:32px solid transparent;border-right:32px solid transparent;border-top:56px solid #FFD700;z-index:10;filter:drop-shadow(0 0 8px #FFD700)}
+.btn{margin:20px auto;background:linear-gradient(90deg,#B91C1C,#FFD700);color:#000;border:3px solid #FFD700;border-radius:50px;padding:15px 40px;font-size:20px;font-weight:900;width:86%;max-width:340px;display:block;cursor:pointer}
+.btn:disabled{background:#333;color:#777}
+.result{margin:15px auto;background:#111;border:3px solid #FFD700;border-radius:12px;padding:18px;width:92%;max-width:480px;display:none}
+.code{font-size:36px;font-weight:900;background:#FFD700;color:#000;padding:12px 24px;border-radius:8px;display:inline-block;margin-top:10px;letter-spacing:4px}
+.timer{margin:10px auto;color:#FFD700;background:#111;border:1px solid #FFD700;padding:8px 14px;border-radius:16px;display:none;font-size:13px}
+</style>
+</head>
+<body>
+<div class="header"><h1>INSHA PIZZA HUT</h1><div class="sub">SPIN & WIN UPTO 20% OFF</div></div>
+<div class="wrap"><div id="arrow"></div><img id="wheel" src="wheel.jpg?v=7" alt="wheel"></div>
+<button class="btn" id="spinBtn">SPIN NOW</button>
+<div class="timer" id="timerBox"></div>
+<div class="result" id="resultBox"><h2 style="color:#FFD700">CONGRATULATIONS!</h2><p id="resultText"></p><div class="code" id="codeBox"></div><p style="margin-top:8px;color:#FFD700;font-size:11px">یہ 4 ہندسوں کا کوڈ کاؤنٹر پر دکھائیں<br>03427529146</p></div>
+<script>
+var wheel=document.getElementById('wheel');
+var btn=document.getElementById('spinBtn');
+var resultBox=document.getElementById('resultBox');
+var timerBox=document.getElementById('timerBox');
+var currentRot=0;
+var lastTime=localStorage.getItem('insha_last_time');
+var isBlocked=false;
+if(lastTime){
+  var diff=Date.now()-parseInt(lastTime);
+  if(diff<86400000){
+    isBlocked=true;
+    btn.disabled=true;
+    btn.innerText='ALREADY SPUN';
+    var lo=localStorage.getItem('insha_last_offer');
+    var lc=localStorage.getItem('insha_last_code');
+    if(lo){
+      resultBox.style.display='block';
+      document.getElementById('resultText').innerText='You Won '+lo+'% OFF!';
+      document.getElementById('codeBox').innerText=lc;
+    }
+    startTimer();
+  }
+}
+function startTimer(){
+  timerBox.style.display='inline-block';
+  var iv=setInterval(function(){
+    var d=86400000-(Date.now()-parseInt(localStorage.getItem('insha_last_time')));
+    if(d<=0){timerBox.style.display='none';btn.disabled=false;btn.innerText='SPIN NOW';clearInterval(iv);isBlocked=false;return;}
+    var h=Math.floor(d/3600000),m=Math.floor((d%3600000)/60000),s=Math.floor((d%60000)/1000);
+    timerBox.innerText='⏰ '+h+' گھنٹے '+m+' منٹ '+s+' سیکنڈ بعد دوبارہ سپن - 24 گھنٹے میں ایک بار';
+  },1000);
+}
+btn.onclick=function(){
+  if(isBlocked) return;
+  var offers=['3','5','8','10','13','15','18','20'];
+  var weights=[25,20,21,15,10,5,3,1];
+  var total=0;for(var i=0;i<weights.length;i++)total+=weights[i];
+  var r=Math.random()*total,acc=0,offer='3';
+  for(var i=0;i<offers.length;i++){acc+=weights[i];if(r<=acc){offer=offers[i];break;}}
+  var map={'3':0,'5':45,'8':90,'10':135,'13':180,'15':225,'18':270,'20':315};
+  var target=map[offer];
+  var finalRot=currentRot+2520+(360-target)+(Math.random()*10-5);
+  wheel.style.transform='rotate('+finalRot+'deg)';
+  currentRot=finalRot;
+  btn.disabled=true;
+  btn.innerText='SPINNING...';
+  resultBox.style.display='none';
+  setTimeout(function(){
+    var code=String(Math.floor(1000+Math.random()*9000));
+    resultBox.style.display='block';
+    document.getElementById('resultText').innerText='You Won '+offer+'% OFF!';
+    document.getElementById('codeBox').innerText=code;
+    btn.innerText='ALREADY SPUN';
+    localStorage.setItem('insha_last_time',Date.now());
+    localStorage.setItem('insha_last_offer',offer);
+    localStorage.setItem('insha_last_code',code);
+    isBlocked=true;
+    startTimer();
+  },5200);
+};
+</script>
+</body>
+</html>
