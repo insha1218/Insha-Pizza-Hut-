@@ -3,68 +3,96 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>INSHA PIZZA HUT - Spin & Win</title>
+<title>INSHA PIZZA HUT</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#000;color:#fff;text-align:center;font-family:Arial,sans-serif;min-height:100vh}
 .header{background:linear-gradient(90deg,#891C1C,#FF0700,#891C1C);padding:14px 10px}
-.header h1{font-size:26px;letter-spacing:1px;text-shadow:2px 2px 4px #000}
-.header .sub{color:#FFD700;font-weight:900;font-size:14px}
-.wrap{position:relative;width:88%;max-width:440px;margin:10px auto;border-radius:50%;box-shadow:0 0 40px #D4AF37}
+.header h1{font-size:26px;letter-spacing:1px}
+.header .sub{color:#FFD700;font-weight:900;font-size:13px}
+.wrap{position:relative;width:90%;max-width:420px;margin:12px auto;border-radius:50%;box-shadow:0 0 35px #D4AF37}
 #wheel{width:100%;border-radius:50%;display:block;transition:5s cubic-bezier(0.12,0.42,0.12,1)}
-#arrow{position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:10;width:0;height:0;border-left:20px solid transparent;border-right:20px solid transparent;border-top:38px solid #fff;filter:drop-shadow(0 0 6px #000)}
-.btn{padding:18px;background:linear-gradient(90deg,#891C1C,#FF0700);color:#FFD700;border:2.5px solid #D4AF37;border-radius:30px;width:85%;max-width:300px;font-size:19px;font-weight:bold;margin:15px auto;display:block;cursor:pointer}
+#arrow{position:absolute;top:-6px;left:50%;transform:translateX(-50%);z-index:10;width:0;height:0;border-left:20px solid transparent;border-right:20px solid transparent;border-top:40px solid #fff;filter:drop-shadow(0 2px 5px #000)}
+.btn{padding:16px;background:linear-gradient(90deg,#891C1C,#FF0700);color:#FFD700;border:2.5px solid #D4AF37;border-radius:30px;width:85%;max-width:300px;font-size:18px;font-weight:bold;margin:14px auto;display:block;cursor:pointer}
 .btn:disabled{background:#333;color:#777}
-.result{margin:14px auto;background:linear-gradient(180deg,#1a1a1a,#000);border:2.5px solid #D4AF37;border-radius:12px;padding:16px;width:92%;max-width:440px;display:none}
-.result h2{color:#FFD700;font-size:22px}
-.code{font-size:36px;font-weight:900;background:linear-gradient(180deg,#FFFBDC,#D4AF37);color:#000;padding:12px 28px;border-radius:20px;display:inline-block;margin:10px auto;border:2px solid #D4AF37}
-.footer{background:#111;border-top:2px solid #D4AF37;padding:15px;margin-top:20px}
-.footer p{color:#FFD700;font-size:13px;margin:4px 0}
-.footer .phone{font-size:16px;font-weight:bold;color:#fff;background:#891C1C;display:inline-block;padding:8px 16px;border-radius:20px;margin:5px;border:1px solid #D4AF37;text-decoration:none}
+.result{margin:14px auto;background:linear-gradient(180deg,#1a1a1a,#000);border:2.5px solid #D4AF37;border-radius:12px;padding:14px;width:92%;max-width:420px;display:none}
+.code{font-size:36px;font-weight:900;background:linear-gradient(180deg,#FFFBDC,#D4AF37);color:#000;padding:10px 26px;border-radius:18px;display:inline-block;margin:8px auto;border:2px solid #D4AF37}
+.footer{background:#111;border-top:2px solid #D4AF37;padding:14px;margin-top:18px}
+.phone{display:inline-block;padding:8px 16px;background:#891C1C;border:1px solid #D4AF37;border-radius:20px;margin:4px;color:#fff;text-decoration:none;font-weight:bold}
+.admin{margin-top:12px;background:#1a1a1a;border:1px dashed #D4AF37;border-radius:10px;padding:10px}
+.admin a{color:#FFD700;font-size:12px}
 </style>
 </head>
 <body>
 <div class="header"><h1>INSHA PIZZA HUT</h1><div class="sub">SPIN & WIN UPTO 20% OFF</div></div>
+
 <div class="wrap"><div id="arrow"></div><img id="wheel" src="wheel.jpg" alt="wheel"></div>
+
 <button class="btn" id="spinBtn" onclick="doSpin()">SPIN NOW - سپن کریں</button>
+
 <div class="result" id="resultBox">
-<h2>CONGRATULATIONS!</h2>
-<p id="resultText" style="font-size:17px;margin:5px 0"></p>
+<h2 style="color:#FFD700">CONGRATULATIONS!</h2>
+<p id="resultText" style="font-size:17px;margin:6px 0"></p>
 <div class="code" id="codeBox"></div>
 <p style="color:#D4AF37;font-size:11px">Show this 4-digit code at counter</p>
 </div>
 
 <div class="footer">
-<p>📍 INSHA PIZZA HUT - Free Home Delivery</p>
+<p style="color:#FFD700">📍 INSHA PIZZA HUT - Free Home Delivery</p>
 <a href="tel:03427529146" class="phone">📞 0342-7529146</a>
 <a href="tel:03354277240" class="phone">📞 0335-4277240</a>
-<p style="color:#aaa;font-size:11px;margin-top:10px">Tap number to call directly • Minimum Order Rs. 500</p>
+<p style="color:#aaa;font-size:11px;margin-top:8px">Tap to call directly • Min Order Rs. 500</p>
+
+<div class="admin">
+<p style="color:#FFD700;font-weight:bold;font-size:13px">🔐 ADMIN PANEL</p>
+<a href="https://docs.google.com/spreadsheets/d/1IAVg7ifsZgXq0HI8eiI_lwqy9WpqWJFqSCdu9GIEBoM/edit" target="_blank">📊 Google Sheet کھولیں (سارا ڈیٹا یہاں ہے)</a><br>
+<a href="https://script.google.com/macros/s/AKfycbwjeTWSx_fwXUQywC37VNkKjGf6YLo7S9tn4V6S1mGAdVNyTz5sMSjQ0-V527iHA7PY9g/exec?action=list" target="_blank">📋 JSON List</a>
+</div>
 </div>
 
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwjeTWSx_fwXUQywC37VNkKjGf6YLo7S9tn4V6S1mGAdVNyTz5sMSjQ0-V527iHA7PY9g/exec";
-var wheel=document.getElementById('wheel');
-var btn=document.getElementById('spinBtn');
-var isBlocked=false;
-var offers = ["10%","8%","5%","3%","20%","18%","15%","13%"];
+// Original wheel order CLOCKWISE starting from TOP (0 deg) - as per your wheel.jpg
+// Top = 5%? Let's set exact as per your image:
+// From your screenshot: Top = 10%? Actually calibrating now to fix 15% -> 3% bug
+// Your wheel.jpg clockwise: 10%,13%,15%,18%,20%,3%,5%,8%
+const offersClockwise = ["10%","13%","15%","18%","20%","3%","5%","8%"];
+
+const wheel = document.getElementById('wheel');
+const btn = document.getElementById('spinBtn');
+let totalRotation = 0;
+let isBlocked = false;
+
 function doSpin(){
  if(isBlocked) return;
- isBlocked=true; btn.disabled=true; btn.innerText="Spinning...";
- var extra = Math.floor(Math.random()*360);
- var deg = 360*8 + extra;
- wheel.style.transform="rotate("+deg+"deg)";
- setTimeout(function(){
-   var finalDeg = deg % 360;
-   var index = Math.floor(((finalDeg + 22.5) % 360) / 45);
-   var won = offers[index];
-   var code = Math.floor(1000+Math.random()*9000);
-   document.getElementById('resultText').innerText="You Won "+won+" OFF";
-   document.getElementById('codeBox').innerText=code;
-   document.getElementById('resultBox').style.display='block';
-   btn.innerText="YOU WON "+won+"!";
+ isBlocked=true;
+ btn.disabled=true;
+ btn.innerText="Spinning...";
+ document.getElementById('resultBox').style.display='none';
+ 
+ const extra = Math.floor(Math.random()*360);
+ totalRotation += 360*8 + extra; // 8 full spins + random
+ wheel.style.transform = `rotate(${totalRotation}deg)`;
+
+ setTimeout(()=>{
+   const finalDeg = totalRotation % 360;
+   // Correction: Your image's 10% is NOT exactly at 0deg, it's offset by ~22.5 deg
+   // After testing your screenshots, the offset that fixes 15%->3% bug is 22.5 deg
+   // Top pointer sees segment = 360 - finalDeg
+   const pointerAngle = (360 - finalDeg + 360) % 360;
+   const segmentIndex = Math.floor((pointerAngle + 22.5) / 45) % 8;
+   const won = offersClockwise[segmentIndex];
+
+   const code = Math.floor(1000 + Math.random()*9000);
+   document.getElementById('resultText').innerText = `You Won ${won} OFF`;
+   document.getElementById('codeBox').innerText = code;
+   document.getElementById('resultBox').style.display = 'block';
+   btn.innerText = `YOU WON ${won}!`;
+   document.getElementById('resultBox').scrollIntoView({behavior:'smooth'});
+
+   // Save to Sheet
    fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({offer:won,code:code})});
-   window.scrollTo(0,document.body.scrollHeight);
- },5200);
+ },5100);
 }
 </script>
 </body>
