@@ -2,82 +2,58 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>INSHA PIZZA HUT - Spin & Win</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#000;color:#fff;text-align:center;font-family:Arial, sans-serif;min-height:100vh}
-.header{background:linear-gradient(90deg,#B91C1C,#FFD700,#B91C1C);padding:14px 10px}
+body{background:#000;color:#fff;text-align:center;font-family:Arial,sans-serif;min-height:100vh}
+.header{background:linear-gradient(90deg,#891C1C,#FF0700,#891C1C);padding:14px 10px}
 .header h1{font-size:26px;letter-spacing:1px;text-shadow:2px 2px 4px #000}
-.header .sub{color:#000;font-weight:900;font-size:14px;margin-top:3px}
-.wrap{position:relative;width:88vw;max-width:440px;margin:16px auto;border-radius:50%;box-shadow:0 0 0 4px #D4AF37,0 0 0 8px #000,0 0 0 11px #D4AF37,0 0 25px rgba(212,175,55,0.5)}
-#wheel{width:100%;height:100%;border-radius:50%;display:block;transition:transform 5s cubic-bezier(0.12,0.12,0.12,1)}
-#arrow{position:absolute;top:-14px;left:50%;transform:translateX(-50%);z-index:10;width:0;height:0;border-left:18px solid transparent;border-right:18px solid transparent;border-top:32px solid #D4AF37;filter:drop-shadow(0 2px 3px #000) drop-shadow(0 0 6px rgba(212,175,55,0.6))}
-#arrow::after{content:'';position:absolute;top:-36px;left:-8px;width:16px;height:16px;background:radial-gradient(circle at 30% 30%, #FFF8DC, #D4AF37 40%, #B8860B);border-radius:50%;border:1px solid #8B6914;box-shadow:0 0 6px #D4AF37}
-.btn{margin:18px auto;background:linear-gradient(90deg,#B91C1C,#FFD700);color:#000;border:2.5px solid #D4AF37;border-radius:50px;padding:13px 38px;font-size:19px;font-weight:900;width:84%;max-width:320px;display:block;cursor:pointer;box-shadow:0 5px 15px rgba(212,175,55,0.3)}
-.btn:disabled{background:#333;color:#777;border-color:#555;cursor:not-allowed}
-.result{margin:14px auto;background:linear-gradient(180deg,#1a1a1a,#000);border:2.5px solid #D4AF37;border-radius:12px;padding:16px;width:92%;max-width:460px;display:none;box-shadow:0 0 18px rgba(212,175,55,0.25)}
-.result h2{color:#FFD700;font-size:22px;margin-bottom:6px}
-.code{font-size:36px;font-weight:900;background:linear-gradient(180deg,#FFF8DC,#D4AF37);color:#000;padding:12px 28px;border-radius:8px;display:inline-block;margin-top:8px;letter-spacing:5px;border:1.5px solid #B8860B;box-shadow:0 3px 10px rgba(212,175,55,0.4)}
-.timer{margin:10px auto;color:#D4AF37;background:#111;border:1px solid #D4AF37;padding:9px 16px;border-radius:20px;display:none;font-size:13px;font-weight:bold;max-width:92%}
-.contact-box{margin:14px auto 0;padding:12px;background:#0f0f0f;border:1px solid #333;border-radius:10px}
-.contact-title{color:#FFD700;font-size:12px;font-weight:bold;margin-bottom:8px;letter-spacing:0.5px}
-.contact-num{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
-.contact-num a{color:#25D366;text-decoration:none;font-size:13px;font-weight:bold;display:flex;align-items:center;gap:5px}
-.wa-icon{display:inline-flex;width:20px;height:20px;background:#25D366;border-radius:50%;justify-content:center;align-items:center;font-size:11px;color:#fff}
-.phone-icon{display:inline-flex;width:20px;height:20px;background:#007AFF;border-radius:50%;justify-content:center;align-items:center;font-size:11px;color:#fff}
-.admin{display:none;background:#0f0f0f;color:#fff;padding:20px;margin:18px auto;max-width:700px;border-radius:12px;border:2px solid #D4AF37;text-align:left;box-shadow:0 0 20px rgba(212,175,55,0.2)}
-.admin h3{color:#FFD700;font-size:18px;margin-bottom:10px;text-align:center}
-.admin .stats{background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:10px;margin:10px 0;font-size:12px;line-height:1.8}
-.admin .stats b{color:#FFD700}
-.admin input{padding:10px;width:58%;border-radius:6px;border:1px solid #D4AF37;background:#222;color:#fff;font-size:14px}
-.admin button{padding:10px 14px;margin:4px;border-radius:6px;border:none;background:#B91C1C;color:#FFD700;font-weight:bold;cursor:pointer;font-size:12px}
-.admin button.green{background:#1a5d1a;color:#fff}
-.admin table{width:100%;border-collapse:collapse;margin-top:12px;font-size:11px}
-.admin th,.admin td{border:1px solid #444;padding:6px;text-align:center}
-.admin th{background:#B91C1C;color:#FFD700}
+.header .sub{color:#FFD700;font-weight:900;font-size:14px}
+.wrap{position:relative;width:88%;max-width:440px;margin:10px auto;border-radius:50%;box-shadow:0 0 40px #D4AF37}
+#wheel{width:100%;border-radius:50%;display:block;transition:5s cubic-bezier(0.12,0.42,0.12,1)}
+#arrow{position:absolute;top:14px;left:50%;transform:translateX(-50%);z-index:10;width:0;height:0;border-left:18px solid transparent;border-right:18px solid transparent;border-top:36px solid #fff;filter:drop-shadow(0 0 6px #000)}
+.btn{padding:18px;background:linear-gradient(90deg,#891C1C,#FF0700);color:#FFD700;border:2.5px solid #D4AF37;border-radius:30px;width:85%;max-width:300px;font-size:19px;font-weight:bold;margin:15px auto;display:block;cursor:pointer}
+.btn:disabled{background:#333;color:#777}
+.result{margin:14px auto;background:linear-gradient(180deg,#1a1a1a,#000);border:2.5px solid #D4AF37;border-radius:12px;padding:16px;width:92%;max-width:440px;display:none}
+.result h2{color:#FFD700;font-size:22px}
+.code{font-size:36px;font-weight:900;background:linear-gradient(180deg,#FFFBDC,#D4AF37);color:#000;padding:12px 28px;border-radius:20px;display:inline-block;margin:10px auto;border:2px solid #D4AF37}
 </style>
 </head>
 <body>
 <div class="header"><h1>INSHA PIZZA HUT</h1><div class="sub">SPIN & WIN UPTO 20% OFF</div></div>
-<div class="wrap"><div id="arrow"></div><img id="wheel" src="wheel.jpg?v=12" alt="wheel"></div>
-<button class="btn" id="spinBtn" onclick="doSpin()">SPIN NOW</button>
-<div class="timer" id="timerBox"></div>
+<div class="wrap"><div id="arrow"></div><img id="wheel" src="wheel.jpg" alt="wheel"></div>
+<button class="btn" id="spinBtn" onclick="doSpin()">SPIN NOW - سپن کریں</button>
 <div class="result" id="resultBox">
 <h2>CONGRATULATIONS!</h2>
-<p id="resultText" style="font-size:17px;margin:6px 0"></p>
+<p id="resultText" style="font-size:17px;margin:5px 0"></p>
 <div class="code" id="codeBox"></div>
-<p style="margin-top:10px;color:#D4AF37;font-size:11px">Show this 4-digit code at counter</p>
-<div class="contact-box">
-<div class="contact-title">📞 Call for Home Delivery</div>
-<div class="contact-num">
-<a href="tel:03427529146"><span class="phone-icon">📞</span> 03427529146</a>
+<p style="color:#D4AF37;font-size:11px">Show this 4-digit code at counter</p>
 </div>
-<div class="contact-num" style="margin-top:8px">
-<a href="tel:03354277240"><span class="phone-icon">📞</span> 03354277240</a>
-</div>
-</div>
-</div>
-<div class="admin" id="adminPanel">
-<h3>🔐 ADMIN PANEL - INSHA PIZZA HUT</h3>
-<p style="font-size:10px;color:#888;text-align:center">Open: yoursite.github.io/INSHA-PIZZA-HUT-/#admin</p>
-<div class="stats" id="statsBox">Total: <b id="totalSpins">0</b> | Today: <b id="todaySpins">0</b> | Used: <b id="usedCodes">0</b>/<b id="totalCodes">0</b><br>3%:<b id="s3">0</b>/25 5%:<b id="s5">0</b>/20 8%:<b id="s8">0</b>/21 10%:<b id="s10">0</b>/15<br>13%:<b id="s13">0</b>/10 15%:<b id="s15">0</b>/5 18%:<b id="s18">0</b>/3 20%:<b id="s20">0</b>/1</div>
-<div style="background:#1a1a1a;padding:12px;border-radius:8px;border:1px solid #D4AF37"><b style="color:#FFD700">VERIFY CODE:</b><br><input type="text" id="verifyInput" placeholder="e.g. 3809"><button onclick="verifyCode()">VERIFY CODE</button><button class="green" onclick="markUsed()">MARK AS USED</button><p id="verifyResult" style="margin-top:10px;font-weight:bold;font-size:14px;min-height:20px"></p></div>
-<div style="margin-top:12px;text-align:center"><button onclick="exportCSV()">EXPORT CSV</button><button onclick="resetAll()" style="background:#444">RESET 100</button><button onclick="clearMySpin()" style="background:#333">CLEAR TEST</button></div>
-<table id="codesTable"><thead><tr><th>Time</th><th>Offer</th><th>Code</th><th>Status</th></tr></thead><tbody></tbody></table>
-</div>
+
 <script>
-var wheel=document.getElementById('wheel');var btn=document.getElementById('spinBtn');var resultBox=document.getElementById('resultBox');var timerBox=document.getElementById('timerBox');var currentRot=0;var isBlocked=false;var LIMITS_ORIG={'3':25,'5':20,'8':21,'10':15,'13':10,'15':5,'18':3,'20':1};var limits;try{limits=JSON.parse(localStorage.getItem('insha_limits'));if(!limits)limits=JSON.parse(JSON.stringify(LIMITS_ORIG));}catch(e){limits=JSON.parse(JSON.stringify(LIMITS_ORIG));}var codesHistory;try{codesHistory=JSON.parse(localStorage.getItem('insha_codes')||'[]');}catch(e){codesHistory=[];}var currentVerify=null;var lastTime=localStorage.getItem('insha_last_time');if(lastTime){var diff=Date.now()-parseInt(lastTime);if(diff<86400000){isBlocked=true;btn.disabled=true;btn.innerText='ALREADY SPUN';var lo=localStorage.getItem('insha_last_offer');var lc=localStorage.getItem('insha_last_code');if(lo){resultBox.style.display='block';document.getElementById('resultText').innerText='You Won '+lo+'% OFF!';document.getElementById('codeBox').innerText=lc;}startTimer();}}
-function startTimer(){timerBox.style.display='inline-block';var iv=setInterval(function(){var lt=localStorage.getItem('insha_last_time');if(!lt){clearInterval(iv);return;}var d=86400000-(Date.now()-parseInt(lt));if(d<=0){timerBox.style.display='none';btn.disabled=false;btn.innerText='SPIN NOW';clearInterval(iv);isBlocked=false;return;}var h=Math.floor(d/3600000),m=Math.floor((d%3600000)/60000),s=Math.floor((d%60000)/1000);timerBox.innerText='⏰ '+h+'h '+m+'m '+s+'s left - Spin again after 24 hours (1 spin per day)';},1000);}
-function doSpin(){if(isBlocked)return;var offers=['3','5','8','10','13','15','18','20'];var weights=[];for(var i=0;i<offers.length;i++)weights.push(limits[offers[i]]||0);var total=0;for(var i=0;i<weights.length;i++)total+=weights[i];if(total===0){limits=JSON.parse(JSON.stringify(LIMITS_ORIG));for(var i=0;i<offers.length;i++)weights[i]=limits[offers[i]];total=100;}var r=Math.random()*total,acc=0,offer='3';for(var i=0;i<offers.length;i++){acc+=weights[i];if(r<=acc){offer=offers[i];break;}}var map={'3':0,'5':45,'8':90,'10':135,'13':180,'15':225,'18':270,'20':315};var target=map[offer];var finalRot=currentRot+2520+(360-target)+(Math.random()*8-4);wheel.style.transition='transform 5s cubic-bezier(0.12,0,0.12,1)';wheel.style.transform='rotate('+finalRot+'deg)';currentRot=finalRot;btn.disabled=true;btn.innerText='SPINNING...';resultBox.style.display='none';setTimeout(function(){var code=String(Math.floor(1000+Math.random()*9000));resultBox.style.display='block';document.getElementById('resultText').innerText='You Won '+offer+'% OFF!';document.getElementById('codeBox').innerText=code;btn.innerText='ALREADY SPUN';limits[offer]--;if(limits[offer]<0)limits[offer]=0;localStorage.setItem('insha_limits',JSON.stringify(limits));localStorage.setItem('insha_rotation',currentRot);localStorage.setItem('insha_last_time',Date.now());localStorage.setItem('insha_last_offer',offer);localStorage.setItem('insha_last_code',code);codesHistory.push({time:Date.now(),offer:offer,code:code,used:false});localStorage.setItem('insha_codes',JSON.stringify(codesHistory));isBlocked=true;updateAdmin();startTimer();},5200);}
-function updateAdmin(){var g=function(id){return document.getElementById(id);};if(!g('s3'))return;var used={'3':0,'5':0,'8':0,'10':0,'13':0,'15':0,'18':0,'20':0};var today=0;var todayStr=new Date().toDateString();var usedCount=0;for(var i=0;i<codesHistory.length;i++){var c=codesHistory[i];if(used[c.offer]!==undefined)used[c.offer]++;if(c.used)usedCount++;if(new Date(c.time).toDateString()===todayStr)today++;}g('s3').innerText=used['3'];g('s5').innerText=used['5'];g('s8').innerText=used['8'];g('s10').innerText=used['10'];g('s13').innerText=used['13'];g('s15').innerText=used['15'];g('s18').innerText=used['18'];g('s20').innerText=used['20'];g('totalSpins').innerText=codesHistory.length;g('todaySpins').innerText=today;g('usedCodes').innerText=usedCount;g('totalCodes').innerText=codesHistory.length;var tbody=document.querySelector('#codesTable tbody');if(tbody){tbody.innerHTML='';var last50=codesHistory.slice(-100).reverse();for(var i=0;i<last50.length;i++){var r=last50[i];var tr=document.createElement('tr');tr.innerHTML='<td>'+new Date(r.time).toLocaleString()+'</td><td>'+r.offer+'% OFF</td><td><b>'+r.code+'</b></td><td style="color:'+(r.used?'#ff6666':'#00ff88')+'">'+(r.used?'USED':'NEW')+'</td>';tbody.appendChild(tr);}}}
-function verifyCode(){var input=document.getElementById('verifyInput').value.trim();var res=document.getElementById('verifyResult');var found=null;for(var i=0;i<codesHistory.length;i++){if(codesHistory[i].code===input){found=codesHistory[i];break;}}if(!found){res.innerText='❌ INVALID CODE - Not found!';res.style.color='#ff4444';currentVerify=null;return;}currentVerify=found;if(found.used){res.innerHTML='⚠️ ALREADY USED<br>Code: <b>'+found.code+'</b> | Offer: <b>'+found.offer+'% OFF</b><br>Do NOT give discount!';res.style.color='#ffaa00';}else{res.innerHTML='✅ VALID CODE<br>Code: <b>'+found.code+'</b> | Offer: <b>'+found.offer+'% OFF</b><br>Time: '+new Date(found.time).toLocaleString()+'<br><span style="color:#00ff88">Give '+found.offer+'% discount!</span>';res.style.color='#00ff88';}}
-function markUsed(){if(!currentVerify){alert('First VERIFY!');return;}currentVerify.used=true;localStorage.setItem('insha_codes',JSON.stringify(codesHistory));document.getElementById('verifyResult').innerHTML+='<br><br>✔️ Marked USED';updateAdmin();}
-function exportCSV(){if(codesHistory.length===0){alert('No data!');return;}var csv='Time,Offer,Code,Status\n';for(var i=0;i<codesHistory.length;i++){var r=codesHistory[i];csv+='"'+new Date(r.time).toLocaleString()+'",'+r.offer+'% OFF,'+r.code+','+(r.used?'USED':'NEW')+'\n';}var blob=new Blob([csv],{type:'text/csv'});var url=URL.createObjectURL(blob);var a=document.createElement('a');a.href=url;a.download='insha_spins.csv';a.click();}
-function resetAll(){if(confirm('Reset 100?')){localStorage.setItem('insha_limits',JSON.stringify(LIMITS_ORIG));limits=JSON.parse(JSON.stringify(LIMITS_ORIG));updateAdmin();}}
-function clearMySpin(){if(confirm('Clear test?')){localStorage.removeItem('insha_last_time');localStorage.removeItem('insha_last_offer');localStorage.removeItem('insha_last_code');location.reload();}}
-if(window.location.hash==='#admin'){document.getElementById('adminPanel').style.display='block';setTimeout(function(){document.getElementById('adminPanel').scrollIntoView();},500);}
-updateAdmin();
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwjeTWSx_fwXUQywC37VNkKjGf6YLo7S9tn4V6S1mGAdVNyTz5sMSjQ0-V527iHA7PY9g/exec";
+var wheel=document.getElementById('wheel');
+var btn=document.getElementById('spinBtn');
+var isBlocked=false;
+function doSpin(){
+ if(isBlocked) return;
+ isBlocked=true; btn.disabled=true; btn.innerText="Spinning...";
+ var deg = 360*8 + Math.floor(Math.random()*360);
+ wheel.style.transform="rotate("+deg+"deg)";
+ setTimeout(function(){
+   var offers=['3%','5%','8%','10%','13%','15%','18%','20%'];
+   var offer = offers[Math.floor(Math.random()*offers.length)];
+   var code = Math.floor(1000+Math.random()*9000);
+   document.getElementById('resultText').innerText="You Won "+offer+" OFF";
+   document.getElementById('codeBox').innerText=code;
+   document.getElementById('resultBox').style.display='block';
+   btn.innerText="YOU WON "+offer+"!";
+   // Save to Google Sheet
+   fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({offer:offer,code:code})});
+   window.scrollTo(0,document.body.scrollHeight);
+ },5200);
+}
 </script>
 </body>
 </html>
