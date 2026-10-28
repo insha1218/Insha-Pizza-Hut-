@@ -7,61 +7,82 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#000;color:#fff;text-align:center;font-family:Arial,sans-serif;min-height:100vh}
-.header{background:linear-gradient(90deg,#891C1C,#FF0700,#891C1C);padding:14px 10px}
-.header h1{font-size:26px;letter-spacing:1px}
-.header .sub{color:#FFD700;font-weight:900;font-size:13px}
+.header{background:linear-gradient(90deg,#891C1C,#FF0700,#891C1C);padding:14px}
+.header h1{font-size:26px}.header .sub{color:#FFD700;font-weight:900;font-size:13px}
 .wrap{position:relative;width:90%;max-width:420px;margin:12px auto;border-radius:50%;box-shadow:0 0 35px #D4AF37}
-#wheel{width:100%;border-radius:50%;display:block;transition:5s cubic-bezier(0.12,0.42,0.12,1)}
+#wheel{width:100%;border-radius:50%;display:block;transition:5.2s cubic-bezier(0.12,0.42,0.12,1)}
 #arrow{position:absolute;top:-6px;left:50%;transform:translateX(-50%);z-index:10;width:0;height:0;border-left:20px solid transparent;border-right:20px solid transparent;border-top:40px solid #fff;filter:drop-shadow(0 2px 5px #000)}
 .btn{padding:16px;background:linear-gradient(90deg,#891C1C,#FF0700);color:#FFD700;border:2.5px solid #D4AF37;border-radius:30px;width:85%;max-width:300px;font-size:18px;font-weight:bold;margin:14px auto;display:block;cursor:pointer}
-.btn:disabled{background:#333;color:#777}
+.btn:disabled{background:#444;color:#777}
 .result{margin:14px auto;background:linear-gradient(180deg,#1a1a1a,#000);border:2.5px solid #D4AF37;border-radius:12px;padding:14px;width:92%;max-width:420px;display:none}
 .code{font-size:36px;font-weight:900;background:linear-gradient(180deg,#FFFBDC,#D4AF37);color:#000;padding:10px 26px;border-radius:18px;display:inline-block;margin:8px auto;border:2px solid #D4AF37}
 .footer{background:#111;border-top:2px solid #D4AF37;padding:14px;margin-top:18px}
 .phone{display:inline-block;padding:8px 16px;background:#891C1C;border:1px solid #D4AF37;border-radius:20px;margin:4px;color:#fff;text-decoration:none;font-weight:bold}
-.admin{margin-top:12px;background:#1a1a1a;border:1px dashed #D4AF37;border-radius:10px;padding:10px}
-.admin a{color:#FFD700;font-size:12px}
+#adminPanel{display:none;margin-top:12px;background:#1a1a1a;border:1px dashed #D4AF37;border-radius:10px;padding:10px}
+#adminPanel a{color:#FFD700;font-size:12px;word-break:break-all}
 </style>
 </head>
 <body>
 <div class="header"><h1>INSHA PIZZA HUT</h1><div class="sub">SPIN & WIN UPTO 20% OFF</div></div>
-
 <div class="wrap"><div id="arrow"></div><img id="wheel" src="wheel.jpg" alt="wheel"></div>
-
 <button class="btn" id="spinBtn" onclick="doSpin()">SPIN NOW - سپن کریں</button>
-
 <div class="result" id="resultBox">
 <h2 style="color:#FFD700">CONGRATULATIONS!</h2>
 <p id="resultText" style="font-size:17px;margin:6px 0"></p>
 <div class="code" id="codeBox"></div>
 <p style="color:#D4AF37;font-size:11px">Show this 4-digit code at counter</p>
 </div>
-
 <div class="footer">
 <p style="color:#FFD700">📍 INSHA PIZZA HUT - Free Home Delivery</p>
 <a href="tel:03427529146" class="phone">📞 0342-7529146</a>
 <a href="tel:03354277240" class="phone">📞 0335-4277240</a>
-<p style="color:#aaa;font-size:11px;margin-top:8px">Tap to call directly • Min Order Rs. 500</p>
-
-<div class="admin">
-<p style="color:#FFD700;font-weight:bold;font-size:13px">🔐 ADMIN PANEL</p>
-<a href="https://docs.google.com/spreadsheets/d/1IAVg7ifsZgXq0HI8eiI_lwqy9WpqWJFqSCdu9GIEBoM/edit" target="_blank">📊 Google Sheet کھولیں (سارا ڈیٹا یہاں ہے)</a><br>
+<p style="color:#aaa;font-size:11px;margin-top:8px">Tap to call • Min Order Rs. 500</p>
+<div id="adminPanel">
+<p style="color:#FFD700;font-weight:bold;font-size:13px">🔐 ADMIN PANEL (Only You)</p>
+<a href="https://docs.google.com/spreadsheets/d/1IAVg7ifsZgXq0HI8eiI_lwqy9WpqWJFqSCdu9GIEBoM/edit" target="_blank">📊 Google Sheet</a><br>
 <a href="https://script.google.com/macros/s/AKfycbwjeTWSx_fwXUQywC37VNkKjGf6YLo7S9tn4V6S1mGAdVNyTz5sMSjQ0-V527iHA7PY9g/exec?action=list" target="_blank">📋 JSON List</a>
 </div>
 </div>
 
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwjeTWSx_fwXUQywC37VNkKjGf6YLo7S9tn4V6S1mGAdVNyTz5sMSjQ0-V527iHA7PY9g/exec";
-// Original wheel order CLOCKWISE starting from TOP (0 deg) - as per your wheel.jpg
-// Top = 5%? Let's set exact as per your image:
-// From your screenshot: Top = 10%? Actually calibrating now to fix 15% -> 3% bug
-// Your wheel.jpg clockwise: 10%,13%,15%,18%,20%,3%,5%,8%
+// --- YOUR DISCOUNT PLAN (100 me se) ---
+const weightedOffers = [
+  {label:"20%", weight:1},  // 1 in 100
+  {label:"18%", weight:2},  // 2 in 100
+  {label:"15%", weight:5},  // 5 in 100
+  {label:"13%", weight:7},  // 7 in 100
+  {label:"10%", weight:10}, // 10 in 100
+  {label:"8%", weight:15},  // 15 in 100
+  {label:"5%", weight:25},  // 25 in 100
+  {label:"3%", weight:35}   // 35 in 100
+];
+// Wheel order clockwise from TOP (10% at top)
 const offersClockwise = ["10%","13%","15%","18%","20%","3%","5%","8%"];
 
 const wheel = document.getElementById('wheel');
 const btn = document.getElementById('spinBtn');
-let totalRotation = 0;
+let totalDeg = 0;
 let isBlocked = false;
+
+if(window.location.search.includes("admin=shoaib")){
+  document.getElementById('adminPanel').style.display='block';
+}
+let tapCount=0;
+document.querySelector('.header h1').addEventListener('click',()=>{
+  tapCount++; if(tapCount>=5){ document.getElementById('adminPanel').style.display='block'; tapCount=0; alert("Admin Unlocked!"); }
+  setTimeout(()=>tapCount=0,3000);
+});
+
+function getWeightedRandomOffer(){
+  const totalWeight = weightedOffers.reduce((s,o)=>s+o.weight,0);
+  let r = Math.random()*totalWeight;
+  for(let o of weightedOffers){
+    if(r < o.weight) return o.label;
+    r -= o.weight;
+  }
+  return "3%";
+}
 
 function doSpin(){
  if(isBlocked) return;
@@ -69,30 +90,27 @@ function doSpin(){
  btn.disabled=true;
  btn.innerText="Spinning...";
  document.getElementById('resultBox').style.display='none';
- 
- const extra = Math.floor(Math.random()*360);
- totalRotation += 360*8 + extra; // 8 full spins + random
- wheel.style.transform = `rotate(${totalRotation}deg)`;
+
+ // 1. Weighted winner as per your plan
+ const winOffer = getWeightedRandomOffer();
+ const winIndex = offersClockwise.indexOf(winOffer);
+
+ // 2. Rotate to bring winner to arrow (100% accurate)
+ const angleOfWinner = winIndex * 45;
+ const targetDeg = (360 - angleOfWinner) % 360;
+ const jitter = (Math.random()*16 -8);
+ totalDeg = totalDeg + 360*8 + targetDeg + jitter;
+ wheel.style.transform = `rotate(${totalDeg}deg)`;
 
  setTimeout(()=>{
-   const finalDeg = totalRotation % 360;
-   // Correction: Your image's 10% is NOT exactly at 0deg, it's offset by ~22.5 deg
-   // After testing your screenshots, the offset that fixes 15%->3% bug is 22.5 deg
-   // Top pointer sees segment = 360 - finalDeg
-   const pointerAngle = (360 - finalDeg + 360) % 360;
-   const segmentIndex = Math.floor((pointerAngle + 22.5) / 45) % 8;
-   const won = offersClockwise[segmentIndex];
-
    const code = Math.floor(1000 + Math.random()*9000);
-   document.getElementById('resultText').innerText = `You Won ${won} OFF`;
+   document.getElementById('resultText').innerText = `You Won ${winOffer} OFF`;
    document.getElementById('codeBox').innerText = code;
-   document.getElementById('resultBox').style.display = 'block';
-   btn.innerText = `YOU WON ${won}!`;
+   document.getElementById('resultBox').style.display='block';
+   btn.innerText = `YOU WON ${winOffer}!`;
    document.getElementById('resultBox').scrollIntoView({behavior:'smooth'});
-
-   // Save to Sheet
-   fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({offer:won,code:code})});
- },5100);
+   fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({offer:winOffer,code:code})});
+ },5300);
 }
 </script>
 </body>
