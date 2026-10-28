@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>INSHA PIZZA HUT</title>
+<style>
+body{background:#000;font-family:Arial;text-align:center;color:#fff}
+.header{background:linear-gradient(90deg,#B91C1C,#FFD700,#B91C1C);padding:16px}
+.header h1{color:white;font-size:30px;text-shadow:2px 2px 4px #000}
+.header .sub{color:#000;font-size:18px;font-weight:bold}
+.wheel-wrap{position:relative;width:92vw;max-width:500px;margin:14px auto;border-radius:50%;box-shadow:0 0 0 8px #FFD700,0 0 30px #FFD700}
+#wheel{width:100%;border-radius:50%;transition:transform 4.5s cubic-bezier(0.15,0,0.15,1)}
+#arrow{position:absolute;top:-12px;left:50%;transform:translateX(-50%);border-left:20px solid transparent;border-right:20px solid transparent;border-bottom:36px solid #FFD700;filter:drop-shadow(0 0 6px #FFD700)}
+.btn{margin:18px auto;background:linear-gradient(90deg,#B91C1C,#FFD700);color:#000;border:3px solid #FFD700;border-radius:50px;padding:15px 40px;font-size:21px;font-weight:bold;cursor:pointer;width:84%;max-width:340px}
+.btn:disabled{background:#555;color:#aaa}
+.result{margin:14px auto;background:#111;border:3px solid #FFD700;border-radius:14px;padding:18px;max-width:520px;width:92%;display:none}
+.code{font-size:24px;font-weight:bold;color:#000;background:#FFD700;padding:10px 18px;border-radius:8px;display:inline-block;margin-top:10px}
+.admin-panel{display:none;background:#111;padding:20px;margin:20px auto;max-width:700px;border-radius:12px;border:1px solid #FFD700;text-align:left}
+</style>
+</head>
+<body>
+<div class="header"><h1>INSHA PIZZA HUT</h1><div class="sub">SPIN & WIN UPTO 20% OFF</div></div>
+<div class="wheel-wrap"><div id="arrow"></div><img id="wheel" src="wheel.jpg"></div>
+<button class="btn" id="spinBtn">SPIN NOW</button>
+<div class="result" id="resultBox"><h2 style="color:#FFD700">CONGRATULATIONS!</h2><p id="resultText"></p><div class="code" id="codeBox"></div></div>
+<div style="font-size:13px;color:#aaa;margin:12px">باقی: <span id="leftCount">100</span>/100 | <span id="timerText"></span></div>
+<div class="admin-panel" id="adminPanel"><h3 style="color:#FFD700">🔐 ADMIN</h3><div>3%:<span id="a3"></span>/25 5%:<span id="a5"></span>/20 8%:<span id="a8"></span>/21 10%:<span id="a10"></span>/15 13%:<span id="a13"></span>/10 15%:<span id="a15"></span>/5 18%:<span id="a18"></span>/3 20%:<span id="a20"></span>/1</div><input id="verifyInput" placeholder="INSHA-10-AB1234" style="width:70%;padding:10px"><button onclick="verifyCode()" style="padding:10px;background:#B91C1C;color:#FFD700">VERIFY</button><p id="verifyResult"></p><button onclick="resetAll()" style="padding:10px;margin-top:10px">RESET 100</button></div>
+<script>
+const LIMITS_ORIG={'3':25,'5':20,'8':21,'10':15,'13':10,'15':5,'18':3,'20':1};
+const ROTATE_MAP={'3':0,'5':45,'8':90,'10':135,'13':180,'15':225,'18':270,'20':315};
+let limits=JSON.parse(localStorage.getItem('insha_limits')||'null')||JSON.parse(JSON.stringify(LIMITS_ORIG));
+let currentRot=parseFloat(localStorage.getItem('insha_rotation')||'0');
+let lastSpinTime=parseInt(localStorage.getItem('insha_last_time')||'0');
+let codesHistory=JSON.parse(localStorage.getItem('insha_codes')||'[]');
+const wheel=document.getElementById('wheel');const btn=document.getElementById('spinBtn');const resultBox=document.getElementById('resultBox');
+wheel.style.transform=`rotate(${currentRot}deg)`;
+function updateLeft(){let left=Object.values(limits).reduce((a,b)=>a+b,0);document.getElementById('leftCount').innerText=left;document.getElementById('a3').innerText=LIMITS_ORIG['3']-limits['3'];document.getElementById('a5').innerText=LIMITS_ORIG['5']-limits['5'];document.getElementById('a8').innerText=LIMITS_ORIG['8']-limits['8'];document.getElementById('a10').innerText=LIMITS_ORIG['10']-limits['10'];document.getElementById('a13').innerText=LIMITS_ORIG['13']-limits['13'];document.getElementById('a15').innerText=LIMITS_ORIG['15']-limits['15'];document.getElementById('a18').innerText=LIMITS_ORIG['18']-limits['18'];document.getElementById('a20').innerText=LIMITS_ORIG['20']-limits['20'];}
+function pickOffer(){let avail=Object.keys(limits).filter(k=>limits[k]>0);if(!avail.length)return null;let sum=avail.reduce((s,k)=>s+limits[k],0);let r=Math.random()*sum;let acc=0;for(let k of avail){acc+=limits[k];if(r<=acc)return k;}return avail[0];}
+function genCode(p){let num=Math.floor(1000+Math.random()*9000);let chars='ABCDEFGHJKLMNPQRSTUVWXYZ';return `INSHA-${p}-${chars[Math.floor(Math.random()*chars.length)]}${chars[Math.floor(Math.random()*chars.length)]}${num}`;}
+function check24h(){if(!lastSpinTime)return true;let diff=Date.now()-lastSpinTime;if(diff<86400000){btn.disabled=true;btn.innerText='ALREADY SPUN';document.getElementById('timerText').innerText=(24-diff/3600000).toFixed(1)+'h بعد';let lo=localStorage.getItem('insha_last_offer');let lc=localStorage.getItem('insha_last_code');if(lo){resultBox.style.display='block';document.getElementById('resultText').innerText=`You Won ${lo}% OFF!`;document.getElementById('codeBox').innerText=lc;}return false;}return true;}
+btn.onclick=()=>{if(!check24h())return;let offer=pickOffer();if(!offer){limits=JSON.parse(JSON.stringify(LIMITS_ORIG));offer=pickOffer();}let code=genCode(offer);let target=ROTATE_MAP[offer];let finalRot=currentRot+2160+(360-target)+Math.random()*20;wheel.style.transform=`rotate(${finalRot}deg)`;currentRot=finalRot;btn.disabled=true;btn.innerText='SPINNING...';setTimeout(()=>{limits[offer]--;localStorage.setItem('insha_limits',JSON.stringify(limits));localStorage.setItem('insha_rotation',currentRot);localStorage.setItem('insha_last_time',Date.now());localStorage.setItem('insha_last_offer',offer);localStorage.setItem('insha_last_code',code);codesHistory.push({time:Date.now(),offer:offer,code:code});localStorage.setItem('insha_codes',JSON.stringify(codesHistory));resultBox.style.display='block';document.getElementById('resultText').innerText=`You Won ${offer}% OFF! (ایرو ${offer}% پر رکا)`;document.getElementById('codeBox').innerText=code;btn.innerText='ALREADY SPUN';updateLeft();},4500);};
+function verifyCode(){let i=document.getElementById('verifyInput').value.trim().toUpperCase();let f=codesHistory.find(c=>c.code===i);document.getElementById('verifyResult').innerText=f?`✅ ${f.offer}% دینا ہے`:'❌ غلط';}
+function resetAll(){if(confirm('ری سیٹ؟')){localStorage.clear();location.reload();}}
+if(window.location.hash==='#admin'){document.getElementById('adminPanel').style.display='block';}
+check24h();updateLeft();
+</script></body></html>
