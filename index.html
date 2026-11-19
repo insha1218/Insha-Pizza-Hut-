@@ -31,10 +31,15 @@ footer a{color:#777;text-decoration:none}
 .whats{position:fixed;bottom:16px;right:16px;background:#25D366;color:#fff;width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:24px;z-index:50}
 #adminPanel{display:none;position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(0,0,0,.97);z-index:999;padding:16px;overflow:auto;text-align:left}
 #adminPanel:target{display:block}
-/* SCRATCH CARD */
-.scratchWrap{position:relative;width:320px;height:180px;margin:15px auto;background:#FFD700;border-radius:14px;overflow:hidden;border:3px solid #fff}
-#scratchPrize{position:absolute;left:0;top:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#000}
-#scratchCanvas{position:absolute;left:0;top:0;width:100%;height:100%;touch-action:none;cursor:pointer}
+/* BALLOON */
+.balloonGrid{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:15px 0}
+.balloon{width:80px;height:100px;border-radius:50% 50% 50% 50% / 55% 55% 45% 45%;position:relative;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:26px;transition:transform .15s;animation:float 2s ease-in-out infinite}
+.balloon:active{transform:scale(1.15)}
+.balloon:after{content:'';position:absolute;bottom:-10px;left:50%;width:2px;height:12px;background:#888}
+.balloon span{font-size:10px;font-weight:900;color:#fff;text-shadow:0 1px 2px #000;position:absolute;top:8px}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.balloon.pop{animation:pop .3s forwards}
+@keyframes pop{to{transform:scale(1.6);opacity:0}}
 </style></head>
 <body>
 <script>try{if(location.search.indexOf('reset=1')!==-1){localStorage.removeItem('insha_last_spin');localStorage.removeItem('insha_spin_log');alert('Wheel Reset ho gaya! Ab dobara spin kar sakte hain.');}}catch(e){}</script>
@@ -55,45 +60,61 @@ footer a{color:#777;text-decoration:none}
 <div class="card"><img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400"><div><b>Deal 10: Family-2</b><br><span>1 Large Rahat Special + 2 Zinger + 1.5Ltr</span><br><span class="price">Rs.2600</span><br><button class="obtn" onclick="window.open('https://wa.me/923427529146?text=Salam Bhai Mujhe Deal 10 Order Karna Hai','_blank')">Order</button></div></div>
 <div class="card"><img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=400"><div><b>Deal 11: Family-3</b><br><span>5 Zinger + 20 Wings + 1.5Ltr</span><br><span class="price">Rs.3200</span><br><button class="obtn" onclick="window.open('https://wa.me/923427529146?text=Salam Bhai Mujhe Deal 11 Order Karna Hai','_blank')">Order</button></div></div>
 
-<!-- SCRATCH CARD SECTION -->
+<!-- BALLOON POP SECTION -->
 <div class="box">
-<h3>Scratch Card - Apna Inaam Kholain!</h3>
-<p style="font-size:12px;color:#aaa">Card ko ungli se kherchain, andar inaam hai!</p>
-<div class="scratchWrap">
-<div id="scratchPrize"><div id="scratchWinText" style="font-size:22px;font-weight:900">???</div><div style="font-size:13px">Apna Code: <b id="scratchCodeText">----</b></div><div style="font-size:11px;margin-top:4px">Screenshot le lein, dukan par dikhayen</div></div>
-<canvas id="scratchCanvas" width="320" height="180"></canvas>
+<h3>🎈 Balloon Pop - Ek Ghubara Phoro, Inaam Jeeto!</h3>
+<p style="font-size:12px;color:#aaa">6 me se kisi 1 ghubare ko dabayen. Andar inaam hai!</p>
+<div class="balloonGrid" id="balloonGrid"></div>
+<div id="balloonResult" style="display:none;background:#000;border:2px dashed #FFD700;border-radius:12px;padding:12px;margin-top:10px">
+<div id="balloonWinText" style="font-size:22px;font-weight:900;color:#FFD700">???</div>
+<div style="font-size:13px;margin-top:5px">Apna Code: <b id="balloonCodeText" style="font-size:20px;color:#FFD700">----</b></div>
+<div style="font-size:11px;color:#aaa;margin-top:4px">Screenshot le lein, dukan par dikhayen</div>
 </div>
-<p id="scratchMsg" style="font-size:12px;color:#FFD700">Upar wale silver hisse ko kherchain</p>
-<button onclick="if(confirm('Naya Scratch Card chahiye? Purana khatam ho jayega.')){localStorage.removeItem('insha_scratch_done'); location.reload();}" style="padding:8px 14px;background:#333;color:#fff;border:none;border-radius:20px;font-size:11px">Naya Card (Admin / Test)</button>
-<div id="scratchClaim" style="display:none;margin-top:10px;text-align:left">
-<input id="sName" placeholder="Your Name *" style="width:100%;padding:10px;margin:5px 0;border-radius:8px;border:1px solid #444;background:#000;color:#fff;box-sizing:border-box">
-<input id="sPhone" placeholder="WhatsApp Number *" style="width:100%;padding:10px;margin:5px 0;border-radius:8px;border:1px solid #444;background:#000;color:#fff;box-sizing:border-box">
-<button onclick="var n=document.getElementById('sName').value; var p=document.getElementById('sPhone').value; if(!n||!p){alert('Naam aur Number likhein');}else{try{var codes=JSON.parse(localStorage.getItem('insha_codes')||'[]'); for(var i=codes.length-1;i>=0;i--){if(String(codes[i].code)===String(window._scratchCode)){codes[i].name=n; codes[i].phone=p; codes[i].deal='Scratch Card'; break;}} localStorage.setItem('insha_codes',JSON.stringify(codes));}catch(e){} window.open('https://wa.me/923427529146?text=Salam Shoaib Bhai%0AMain ne Scratch Card jeeta hai%0AName: '+encodeURIComponent(n)+'%0APhone: '+encodeURIComponent(p)+'%0AWin: '+encodeURIComponent(window._scratchWin||'')+'%0ACode: '+window._scratchCode,'_blank');}" style="width:100%;padding:12px;background:#25D366;color:#fff;border:none;border-radius:20px;font-weight:900">Scratch Inaam WhatsApp Par Claim Karein</button>
+<p id="balloonMsg" style="font-size:12px;color:#FFD700">Neeche apna naam likhein, phir ghubara phorein</p>
+<input id="bName" placeholder="Your Name *" style="width:100%;padding:10px;margin:5px 0;border-radius:8px;border:1px solid #444;background:#000;color:#fff;box-sizing:border-box">
+<input id="bPhone" placeholder="WhatsApp Number *" style="width:100%;padding:10px;margin:5px 0;border-radius:8px;border:1px solid #444;background:#000;color:#fff;box-sizing:border-box">
+<div id="balloonClaim" style="display:none;margin-top:10px">
+<button onclick="var n=document.getElementById('bName').value; var p=document.getElementById('bPhone').value; if(!n||!p){alert('Naam aur Number likhein');}else{try{var codes=JSON.parse(localStorage.getItem('insha_codes')||'[]'); for(var i=codes.length-1;i>=0;i--){if(String(codes[i].code)===String(window._balloonCode)){codes[i].name=n; codes[i].phone=p; codes[i].deal='Balloon Pop'; break;}} localStorage.setItem('insha_codes',JSON.stringify(codes));}catch(e){} window.open('https://wa.me/923427529146?text=Salam Shoaib Bhai%0AMain ne Balloon Pop jeeta hai%0AName: '+encodeURIComponent(n)+'%0APhone: '+encodeURIComponent(p)+'%0AWin: '+encodeURIComponent(window._balloonWin||'')+'%0ACode: '+window._balloonCode,'_blank');}" style="width:100%;padding:12px;background:#25D366;color:#fff;border:none;border-radius:20px;font-weight:900">Balloon Inaam WhatsApp Par Claim Karein</button>
 </div>
+<button onclick="location.reload();" style="margin-top:10px;padding:8px 14px;background:#333;color:#fff;border:none;border-radius:20px;font-size:11px">Dobara Khelein (Naye Ghubare)</button>
 </div>
 <script>
 (function(){
-var canvas=document.getElementById('scratchCanvas'); if(!canvas) return;
-var ctx=canvas.getContext('2d');
-var prizes=['5% OFF','8% OFF','5% OFF','Free Drink','10% OFF','3% OFF','5% OFF','Try Again - 3% OFF'];
-var win=prizes[Math.floor(Math.random()*prizes.length)];
+var colors=['#FF4757','#FF6B81','#FFA502','#2ED573','#1E90FF','#A55EEA'];
+var prizes=['5% OFF','Free Drink','10% OFF','3% OFF','5% OFF','8% OFF'];
+// shuffle prizes
+prizes=prizes.sort(function(){return Math.random()-0.5});
+var grid=document.getElementById('balloonGrid');
+var done=false;
+for(var i=0;i<6;i++){
+(function(idx){
+var d=document.createElement('div');
+d.className='balloon';
+d.style.background=colors[idx];
+d.style.background='radial-gradient(circle at 30% 30%, #ffffff88, '+colors[idx]+' 60%)';
+d.innerHTML='<span>POP!</span>🎈';
+d.onclick=function(){
+if(done) return;
+done=true;
+d.classList.add('pop');
+var win=prizes[idx];
 var code=Math.floor(1000+Math.random()*9000);
-window._scratchWin=win; window._scratchCode=code;
-document.getElementById('scratchWinText').innerText='Mubarak ho! '+win;
-document.getElementById('scratchCodeText').innerText=code;
-try{var codes=JSON.parse(localStorage.getItem('insha_codes')||'[]'); codes.push({code:code,win:win,date:new Date().toLocaleString(),used:false,name:'',phone:'',deal:'Scratch Card',total:'',location:''}); localStorage.setItem('insha_codes',JSON.stringify(codes));}catch(e){}
-ctx.fillStyle='#C0C0C0'; ctx.fillRect(0,0,320,180);
-ctx.fillStyle='#666'; ctx.font='bold 18px Arial'; ctx.textAlign='center'; ctx.fillText('KHURCHAIN - SCRATCH HERE',160,95);
-var drawing=false; var revealed=false;
-function getPos(e){var r=canvas.getBoundingClientRect(); var x=(e.touches?e.touches[0].clientX:e.clientX)-r.left; var y=(e.touches?e.touches[0].clientY:e.clientY)-r.top; return {x:x,y:y};}
-function scratch(e){if(revealed) return; e.preventDefault(); var p=getPos(e); ctx.globalCompositeOperation='destination-out'; ctx.beginPath(); ctx.arc(p.x,p.y,22,0,Math.PI*2); ctx.fill(); check();}
-function check(){try{var d=ctx.getImageData(0,0,320,180).data; var clear=0; for(var i=3;i<d.length;i+=4){if(d[i]===0) clear++;} var pct=clear/(320*180)*100; if(pct>45 && !revealed){revealed=true; canvas.style.display='none'; document.getElementById('scratchMsg').innerText='Mubarak ho! Aap ko '+win+' mila hai. Screenshot le lein.'; document.getElementById('scratchClaim').style.display='block';}}catch(e){}}
-canvas.addEventListener('mousedown',function(e){drawing=true; scratch(e);});
-canvas.addEventListener('mousemove',function(e){if(drawing) scratch(e);});
-window.addEventListener('mouseup',function(){drawing=false;});
-canvas.addEventListener('touchstart',function(e){drawing=true; scratch(e);},{passive:false});
-canvas.addEventListener('touchmove',function(e){if(drawing) scratch(e);},{passive:false});
-canvas.addEventListener('touchend',function(){drawing=false;});
+window._balloonWin=win; window._balloonCode=code;
+try{var codes=JSON.parse(localStorage.getItem('insha_codes')||'[]'); codes.push({code:code,win:win,date:new Date().toLocaleString(),used:false,name:'',phone:'',deal:'Balloon Pop',total:'',location:''}); localStorage.setItem('insha_codes',JSON.stringify(codes));}catch(e){}
+setTimeout(function(){
+document.getElementById('balloonResult').style.display='block';
+document.getElementById('balloonWinText').innerText='💥 Phat Gaya! Aap ko mila: '+win;
+document.getElementById('balloonCodeText').innerText=code;
+document.getElementById('balloonMsg').innerText='Mubarak ho! Neeche Claim dabayen.';
+document.getElementById('balloonClaim').style.display='block';
+// baqi ghubare halke kar do
+var all=document.querySelectorAll('.balloon'); for(var j=0;j<all.length;j++){if(all[j]!==d){all[j].style.opacity='0.35';}}
+document.getElementById('balloonResult').scrollIntoView({behavior:'smooth'});
+},350);
+};
+grid.appendChild(d);
+})(i);
+}
 })();
 </script>
 
@@ -121,4 +142,5 @@ canvas.addEventListener('touchend',function(){drawing=false;});
 <div id="adminPanel"><div style="background:#1a1a1a;border:2px solid #FFD700;border-radius:14px;padding:18px;max-width:680px;margin:10px auto">
 <h2 style="color:#FFD700;text-align:center">Admin Panel</h2>
 <div id="loginBox"><input type="password" id="adminPass" placeholder="Password" style="width:100%;padding:12px;background:#000;color:#fff;border:1px solid #444;border-radius:10px;box-sizing:border-box">
-<button onclick="var v=document.getElementById('adminPass').value; v=v.replace(/ /g,''); if(v==='1218'){document.getElementById('loginBox').style.display='none';document.getElementById('dataBox').style.display='block'; try{var codes=JSON.parse(localStorage.getItem('insha_codes')||'[]'); document.getElementById('totalCount').innerText='Total Codes (Wheel + Scratch): '+codes.length; var h=''; for(var i=codes.length-1;i>=0;i--){var r=codes[i]; h+='<div style=\'border-bottom:1px solid #333;padding:8px\'>Code: <b style=\'color:#FFD700\'>'+r.code+'</b> | Win: '+r.win+' | '+(r.deal||'Wheel')+' | '+(r.used?'USED':'Fresh')+'<br>'+(r.name?('Name: '+r.name+' | Phone: '+r.phone+'<br>'):'Abhi Claim nahi kiya<br>')+'<span style=\'color:#888\'>'+r.date+'</span></div>';} if(codes.length==0){h='<div style=\'padding:10px;color:#aaa\'>Abhi kisi ne spin / scratch nahi kiya.</div>';} document.getElementById('dataList').innerHTML=h;}catch(e){document.getElementById('dataList').innerHTML='Data load nahi hua';}}else{alert('Wrong Password!');}" style=
+<button onclick="var v=document.getElementById('adminPass').value; v=v.replace(/ /g,''); if(v==='1218'){document.getElementById('loginBox').style.display='none';document.getElementById('dataBox').style.display='block'; try{var codes=JSON.parse(localStorage.getItem('insha_codes')||'[]'); document.getElementById('totalCount').innerText='Total Codes (Wheel + Balloon): '+codes.length; var h=''; for(var i=codes.length-1;i>=0;i--){var r=codes[i]; h+='<div style=\'border-bottom:1px solid #333;padding:8px\'>Code: <b style=\'color:#FFD700\'>'+r.code+'</b> | Win: '+r.win+' | '+(r.deal||'Wheel')+' | '+(r.used?'USED':'Fresh')+'<br>'+(r.name?('Name: '+r.name+' | Phone: '+r.phone+'<br>'):'Abhi Claim nahi kiya<br>')+'<span style=\'color:#888\'>'+r.date+'</span></div>';} if(codes.length==0){h='<div style=\'padding:10px;color:#aaa\'>Abhi kisi ne spin / balloon nahi kiya.</div>';} document.getElementById('dataList').innerHTML=h;}catch(e){document.getElementById('dataList').innerHTML='Data load nahi hua';}}else{alert('Wrong Password!');}" style="width:100%;margin-top:8px;padding:12px;background:#FFD700;border:none;border-radius:30px;font-weight:900">Login</button>
+<a href="#" style="display:block;text-align:
