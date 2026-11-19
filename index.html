@@ -14,18 +14,6 @@ h3{color:#FFD700}
 .price{color:#FFD700;font-weight:bold}
 .obtn{background:#FFD700;color:#000;border:none;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:bold;cursor:pointer;margin-top:4px}
 .box{border:2px solid #FFD700;border-radius:20px;padding:15px;max-width:400px;margin:15px auto;background:#111}
-.wrap{position:relative;width:300px;height:300px;margin:20px auto}
-#wheel{position:absolute;left:0;top:0;width:300px;height:300px;border-radius:50%;overflow:hidden;transition:transform 5s cubic-bezier(.17,.67,.12,.99);border:6px solid #FFD700;box-sizing:border-box;background:#111}
-#wheel img{width:118%;height:118%;margin-left:-9%;margin-top:-9%;object-fit:cover;display:block}
-#owner{position:absolute;top:50%;left:50%;margin-left:-56px;margin-top:-56px;width:112px;height:112px;border-radius:50%;border:5px solid #FFD700;object-fit:cover;z-index:10;background:#000}
-#pointer{position:absolute;top:-14px;left:50%;margin-left:-20px;width:0;height:0;border-left:20px solid transparent;border-right:20px solid transparent;border-top:38px solid red;z-index:20}
-#spinBtn{padding:14px 32px;border:none;border-radius:30px;background:linear-gradient(#FFE45E,#FFB800);color:#000;font-weight:900;font-size:16px;cursor:pointer}
-#result{display:none;background:#222;border:1px solid #444;border-radius:12px;padding:12px;margin-top:14px;text-align:left}
-#result input,#result select{width:100%;padding:10px;margin:6px 0;border-radius:8px;border:1px solid #444;background:#000;color:#fff;box-sizing:border-box}
-.code{background:#000;border:2px dashed #FFD700;padding:8px;border-radius:8px;text-align:center}
-.code b{color:#FFD700;font-size:20px}
-.bill{background:#000;border:1px solid #FFD700;border-radius:10px;padding:10px;font-size:13px;line-height:1.7;margin-top:10px}
-.bill b{color:#FFD700}
 footer{color:#777;font-size:11px;padding:12px;border-top:2px solid #FFD700}
 footer a{color:#777;text-decoration:none}
 .whats{position:fixed;bottom:16px;right:16px;background:#25D366;color:#fff;width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:24px;z-index:50}
@@ -42,7 +30,6 @@ footer a{color:#777;text-decoration:none}
 @keyframes pop{to{transform:scale(1.6);opacity:0}}
 </style></head>
 <body>
-<script>try{if(location.search.indexOf('reset=1')!==-1){localStorage.removeItem('insha_last_spin');localStorage.removeItem('insha_spin_log');alert('Wheel Reset ho gaya! Ab dobara spin kar sakte hain.');}}catch(e){}</script>
 <div class="top"><a href="tel:03427529146">Call Now</a><a href="https://wa.me/923427529146">WhatsApp</a><a href="https://maps.google.com/?q=Insha+Pizza+Shop+Ichhra+Lahore">Location</a><a href="https://www.google.com/maps/search/Insha+Pizza+Shop+Lahore">5 Star Review</a></div>
 <h1>INSHA PIZZA SHOP - LAHORE</h1>
 <p style="font-size:11px;color:#aaa">Owner Shoaib | 11 AM - 2 AM | Free Delivery Ichhra, Mazang</p>
@@ -60,7 +47,7 @@ footer a{color:#777;text-decoration:none}
 <div class="card"><img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400"><div><b>Deal 10: Family-2</b><br><span>1 Large Rahat Special + 2 Zinger + 1.5Ltr</span><br><span class="price">Rs.2600</span><br><button class="obtn" onclick="window.open('https://wa.me/923427529146?text=Salam Bhai Mujhe Deal 10 Order Karna Hai','_blank')">Order</button></div></div>
 <div class="card"><img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=400"><div><b>Deal 11: Family-3</b><br><span>5 Zinger + 20 Wings + 1.5Ltr</span><br><span class="price">Rs.3200</span><br><button class="obtn" onclick="window.open('https://wa.me/923427529146?text=Salam Bhai Mujhe Deal 11 Order Karna Hai','_blank')">Order</button></div></div>
 
-<!-- BALLOON POP SECTION -->
+<!-- BALLOON POP SECTION - ONLY THIS GAME NOW -->
 <div class="box">
 <h3>🎈 Balloon Pop - Ek Ghubara Phoro, Inaam Jeeto!</h3>
 <p style="font-size:12px;color:#aaa">6 me se kisi 1 ghubare ko dabayen. Andar inaam hai!</p>
@@ -82,7 +69,6 @@ footer a{color:#777;text-decoration:none}
 (function(){
 var colors=['#FF4757','#FF6B81','#FFA502','#2ED573','#1E90FF','#A55EEA'];
 var prizes=['5% OFF','Free Drink','10% OFF','3% OFF','5% OFF','8% OFF'];
-// shuffle prizes
 prizes=prizes.sort(function(){return Math.random()-0.5});
 var grid=document.getElementById('balloonGrid');
 var done=false;
@@ -90,7 +76,6 @@ for(var i=0;i<6;i++){
 (function(idx){
 var d=document.createElement('div');
 d.className='balloon';
-d.style.background=colors[idx];
 d.style.background='radial-gradient(circle at 30% 30%, #ffffff88, '+colors[idx]+' 60%)';
 d.innerHTML='<span>POP!</span>🎈';
 d.onclick=function(){
@@ -107,7 +92,6 @@ document.getElementById('balloonWinText').innerText='💥 Phat Gaya! Aap ko mila
 document.getElementById('balloonCodeText').innerText=code;
 document.getElementById('balloonMsg').innerText='Mubarak ho! Neeche Claim dabayen.';
 document.getElementById('balloonClaim').style.display='block';
-// baqi ghubare halke kar do
 var all=document.querySelectorAll('.balloon'); for(var j=0;j<all.length;j++){if(all[j]!==d){all[j].style.opacity='0.35';}}
 document.getElementById('balloonResult').scrollIntoView({behavior:'smooth'});
 },350);
@@ -118,29 +102,25 @@ grid.appendChild(d);
 })();
 </script>
 
-<div class="box">
-<h3>Spin and Win Upto 20% OFF!</h3>
-<p style="font-size:12px;color:#aaa">Spin and Win - Good Luck! Ek spin, ek moka!</p>
-<div class="wrap"><div id="pointer"></div><div id="wheel"><img src="wheel.jpg?v=1000"></div><img id="owner" src="owner.jpg" onerror="this.style.display='none'"></div>
-<button id="spinBtn" onclick="var btn=this; try{var last=parseInt(localStorage.getItem('insha_last_spin')||'0'); if(last && Date.now()-last < 24*60*60*1000){var left=24*60*60*1000-(Date.now()-last); var h=Math.floor(left/3600000); var m=Math.floor((left%3600000)/60000); alert('Aap ne aaj spin kar liya hai. Agla spin '+h+'h '+m+'m baad hoga.'); return;}}catch(e){} btn.innerText='Spinning...'; var wins=['5%','3%','8%','5%','10%','3%','5%','8%','13%','5%','3%','15%']; var win=wins[Math.floor(Math.random()*wins.length)]; var code=Math.floor(1000+Math.random()*9000); window._win=win; window._code=code; var am={'5%':0,'8%':45,'10%':90,'13%':135,'15%':180,'18%':225,'20%':270,'3%':315}; var center=am[win]; var need=360-center; var cur=window._rot||0; window._rot=cur+2880+need; document.getElementById('wheel').style.transform='rotate('+window._rot+'deg)'; try{localStorage.setItem('insha_last_spin',Date.now().toString()); var codes=JSON.parse(localStorage.getItem('insha_codes')||'[]'); codes.push({code:code,win:win,date:new Date().toLocaleString(),used:false,name:'',phone:'',deal:'',total:'',location:''}); localStorage.setItem('insha_codes',JSON.stringify(codes));}catch(e){} setTimeout(function(){var r=document.getElementById('result'); r.style.display='block'; document.getElementById('winText').innerText=win+' OFF'; document.getElementById('giftText').innerText='Mubarak ho! Aap ko '+win+' OFF mila hai.'; document.getElementById('codeText').innerText=code; btn.innerText='SPIN AGAIN'; document.getElementById('timer').innerText='Aap ne spin kar liya hai. Agla spin 24 ghante baad.'; document.getElementById('timer').style.display='block'; r.scrollIntoView();},5100);">SPIN NOW</button>
-<p id="timer" style="color:#FFD700;font-size:12px;display:none"></p>
-<div id="result">
-<h2 id="winText" style="color:#FFD700;text-align:center"></h2><p id="giftText" style="text-align:center"></p>
-<div class="code">Your Secret Code: <b id="codeText">----</b></div>
-<input id="custName" placeholder="Your Name *">
-<input id="custPhone" placeholder="WhatsApp Number *">
-<select id="dealSelect" onchange="var v=this.value; var box=document.getElementById('billBox'); if(!v||!window._win){box.style.display='none';return;} var parts=v.split('|'); var dname=parts[0]; var orig=parseInt(parts[1]); var pct=parseInt(window._win); var disc=Math.round(orig*pct/100); var after=orig-disc; var loc=document.getElementById('custLocation').value.toLowerCase(); var del=0; if(loc.indexOf('ichhra')==-1 && loc.indexOf('ichra')==-1 && loc.indexOf('mazang')==-1 && loc!=''){del=150;} var total=after+del; window._total=total; window._deal=dname; box.style.display='block'; box.innerHTML='Deal: '+dname+'<br>Original: Rs.'+orig+'<br>Discount ('+window._win+' OFF): - Rs.'+disc+'<br>After Discount: Rs.'+after+'<br>Delivery: '+(del==0?'<b>FREE (Ichhra / Mazang)</b>':'Rs.'+del)+'<br><hr><b>Total to Pay: Rs.'+total+'</b> (Cash on Delivery)';"><option value="">Select Deal Number *</option><option value="Deal 1|600">Deal 1 - Rs.600</option><option value="Deal 2|800">Deal 2 - Rs.800</option><option value="Deal 3|2000">Deal 3 - Rs.2000</option><option value="Deal 4|800">Deal 4 - Rs.800</option><option value="Deal 5|2650">Deal 5 - Rs.2650</option><option value="Deal 6|1450">Deal 6 - Rs.1450</option><option value="Deal 7|1800">Deal 7 - Rs.1800</option><option value="Deal 8|2500">Deal 8 - Rs.2500</option><option value="Deal 9|1700">Deal 9 - Rs.1700</option><option value="Deal 10|2600">Deal 10 - Rs.2600</option><option value="Deal 11|3200">Deal 11 - Rs.3200</option></select>
-<input id="custLocation" placeholder="Your Location / Address *" oninput="var s=document.getElementById('dealSelect'); var ev=document.createEvent('HTMLEvents'); ev.initEvent('change',true,false); s.dispatchEvent(ev);">
-<div id="billBox" class="bill" style="display:none"></div>
-<button onclick="var n=document.getElementById('custName').value; var p=document.getElementById('custPhone').value; var d=document.getElementById('dealSelect').value; var l=document.getElementById('custLocation').value; if(!n||!p||!d||!l){alert('Name, Phone, Deal, Location bharein');}else{try{var codes=JSON.parse(localStorage.getItem('insha_codes')||'[]'); for(var i=codes.length-1;i>=0;i--){if(String(codes[i].code)===String(window._code)){codes[i].name=n; codes[i].phone=p; codes[i].deal=window._deal||d; codes[i].total=window._total; codes[i].location=l; break;}} localStorage.setItem('insha_codes',JSON.stringify(codes)); var all=JSON.parse(localStorage.getItem('insha_shop_data')||'[]'); all.push({name:n,phone:p,win:window._win,code:window._code,deal:window._deal||d,total:window._total,location:l,date:new Date().toLocaleString(),used:false}); localStorage.setItem('insha_shop_data',JSON.stringify(all));}catch(e){} window.open('https://wa.me/923427529146?text=Salam Shoaib Bhai%0AName: '+encodeURIComponent(n)+'%0APhone: '+encodeURIComponent(p)+'%0AWin: '+encodeURIComponent(window._win||'')+'%0ACode: '+window._code+'%0ADeal: '+encodeURIComponent(window._deal||d)+'%0ATotal: Rs.'+(window._total||'')+'%0ALocation: '+encodeURIComponent(l),'_blank');}" style="width:100%;padding:12px;background:#25D366;color:#fff;border:none;border-radius:20px;font-weight:900">Claim on WhatsApp</button>
-</div>
-</div>
-
 <footer><a href="#adminPanel">Insha Pizza Shop - 0342-7529146 | 0335-4277240 | Ichhra, Lahore</a></footer>
 <a href="https://wa.me/923427529146" class="whats">Chat</a>
 
 <div id="adminPanel"><div style="background:#1a1a1a;border:2px solid #FFD700;border-radius:14px;padding:18px;max-width:680px;margin:10px auto">
 <h2 style="color:#FFD700;text-align:center">Admin Panel</h2>
 <div id="loginBox"><input type="password" id="adminPass" placeholder="Password" style="width:100%;padding:12px;background:#000;color:#fff;border:1px solid #444;border-radius:10px;box-sizing:border-box">
-<button onclick="var v=document.getElementById('adminPass').value; v=v.replace(/ /g,''); if(v==='1218'){document.getElementById('loginBox').style.display='none';document.getElementById('dataBox').style.display='block'; try{var codes=JSON.parse(localStorage.getItem('insha_codes')||'[]'); document.getElementById('totalCount').innerText='Total Codes (Wheel + Balloon): '+codes.length; var h=''; for(var i=codes.length-1;i>=0;i--){var r=codes[i]; h+='<div style=\'border-bottom:1px solid #333;padding:8px\'>Code: <b style=\'color:#FFD700\'>'+r.code+'</b> | Win: '+r.win+' | '+(r.deal||'Wheel')+' | '+(r.used?'USED':'Fresh')+'<br>'+(r.name?('Name: '+r.name+' | Phone: '+r.phone+'<br>'):'Abhi Claim nahi kiya<br>')+'<span style=\'color:#888\'>'+r.date+'</span></div>';} if(codes.length==0){h='<div style=\'padding:10px;color:#aaa\'>Abhi kisi ne spin / balloon nahi kiya.</div>';} document.getElementById('dataList').innerHTML=h;}catch(e){document.getElementById('dataList').innerHTML='Data load nahi hua';}}else{alert('Wrong Password!');}" style="width:100%;margin-top:8px;padding:12px;background:#FFD700;border:none;border-radius:30px;font-weight:900">Login</button>
-<a href="#" style="display:block;text-align:
+<button onclick="var v=document.getElementById('adminPass').value; v=v.replace(/ /g,''); if(v==='1218'){document.getElementById('loginBox').style.display='none';document.getElementById('dataBox').style.display='block'; try{var codes=JSON.parse(localStorage.getItem('insha_codes')||'[]'); document.getElementById('totalCount').innerText='Total Codes (Balloon): '+codes.length; var h=''; for(var i=codes.length-1;i>=0;i--){var r=codes[i]; h+='<div style=\'border-bottom:1px solid #333;padding:8px\'>Code: <b style=\'color:#FFD700\'>'+r.code+'</b> | Win: '+r.win+' | '+(r.deal||'Balloon Pop')+' | '+(r.used?'USED':'Fresh')+'<br>'+(r.name?('Name: '+r.name+' | Phone: '+r.phone+'<br>'):'Abhi Claim nahi kiya<br>')+'<span style=\'color:#888\'>'+r.date+'</span></div>';} if(codes.length==0){h='<div style=\'padding:10px;color:#aaa\'>Abhi kisi ne balloon nahi phora.</div>';} document.getElementById('dataList').innerHTML=h;}catch(e){document.getElementById('dataList').innerHTML='Data load nahi hua';}}else{alert('Wrong Password!');}" style="width:100%;margin-top:8px;padding:12px;background:#FFD700;border:none;border-radius:30px;font-weight:900">Login</button>
+<a href="#" style="display:block;text-align:center;margin-top:8px;padding:10px;background:#333;color:#fff;border-radius:30px;text-decoration:none">Close</a></div>
+<div id="dataBox" style="display:none">
+<h3 id="totalCount" style="color:#FFD700"></h3>
+<div style="background:#000;border:2px solid #25D366;border-radius:12px;padding:12px;margin:12px 0">
+<h3 style="color:#25D366;font-size:15px;margin:0 0 8px 0">Verify Balloon Code</h3>
+<p style="font-size:12px;color:#aaa;margin:0 0 8px 0">Balloon wala code yahin se verify hoga.</p>
+<input id="verifyInput" placeholder="4 digit code likhein" style="width:68%;padding:12px;background:#111;color:#fff;border:1px solid #444;border-radius:8px;box-sizing:border-box">
+<button onclick="var c=document.getElementById('verifyInput').value; c=c.replace(/ /g,''); var res=document.getElementById('verifyResult'); if(!c){res.innerHTML='Code likhein pehle'; return;} try{var codes=JSON.parse(localStorage.getItem('insha_codes')||'[]'); var f=null; for(var i=0;i<codes.length;i++){if(String(codes[i].code)===c){f=codes[i]; break;}} if(!f){res.innerHTML='<div style=\'background:#5a0000;padding:10px;border-radius:8px\'><b>INVALID CODE! Jali hai.</b><br>Ye code is mobile me nahi hai. WhatsApp message check karein.</div>'; return;} if(f.used){res.innerHTML='<div style=\'background:#5a3a00;padding:10px;border-radius:8px\'><b style=\'color:#FFD700\'>YE CODE PEHLE HI USE HO CHUKA HAI!</b><br>Code: '+f.code+' Win: '+f.win+' Dobara mat dein.</div>'; return;} res.innerHTML='<div style=\'background:#003d1a;padding:10px;border-radius:8px\'><b style=\'color:#25D366;font-size:16px\'>VALID! Discount dein.</b><br>Code: '+f.code+'<br>Win: '+f.win+'<br>Type: '+(f.deal||'Balloon Pop')+'<br>'+(f.name?('Name: '+f.name+'<br>Phone: '+f.phone+'<br>'):'Abhi Claim nahi kiya, phir bhi discount banta hai.<br>')+'Date: '+f.date+'</div><button onclick=\'try{var cc=JSON.parse(localStorage.getItem(&quot;insha_codes&quot;)||&quot;[]&quot;); for(var i=0;i<cc.length;i++){if(String(cc[i].code)===&quot;'+c+'&quot;){cc[i].used=true;}} localStorage.setItem(&quot;insha_codes&quot;,JSON.stringify(cc)); document.getElementById(&quot;verifyResult&quot;).innerHTML+=\&quot;<div style=background:#FFD700;color:#000;padding:8px;border-radius:8px;margin-top:8px;font-weight:bold;text-align:center>Ho gaya! USED mark ho gaya.</div>\&quot;;}catch(e){}\' style=\'width:100%;margin-top:8px;padding:10px;background:#FFD700;border:none;border-radius:20px;font-weight:900\'>Is Code Ko USED Mark Karein</button>';}catch(e){res.innerHTML='Error: '+e.message;}" style="padding:12px 14px;background:#25D366;color:#fff;border:none;border-radius:8px;font-weight:800">Verify</button>
+<div id="verifyResult" style="margin-top:10px;font-size:13px"></div>
+</div>
+<div><button onclick="if(confirm('Sara data clear karein?')){localStorage.removeItem('insha_shop_data');localStorage.removeItem('insha_codes');location.reload();}" style="padding:8px 14px;background:#b00;color:#fff;border:none;border-radius:20px;font-weight:800">Clear All Data</button><a href="#" style="display:inline-block;padding:8px 14px;background:#333;color:#fff;border-radius:20px;text-decoration:none">Close</a></div>
+<div id="dataList" style="max-height:55vh;overflow:auto;margin-top:10px;font-size:12px"></div>
+</div>
+</div></div>
+</body></html>
